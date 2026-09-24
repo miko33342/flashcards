@@ -98,10 +98,11 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
       <!-- Category Filter Pills -->
       <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs">
-        <button onclick="setFilter('all')" id="filter-all" class="px-3 py-1.5 rounded-full bg-indigo-600 text-white font-medium shadow-xs whitespace-nowrap">全部 (<span id="count-all">25</span>)</button>
+        <button onclick="setFilter('all')" id="filter-all" class="px-3 py-1.5 rounded-full bg-indigo-600 text-white font-medium shadow-xs whitespace-nowrap">全部 (<span id="count-all">31</span>)</button>
         <button onclick="setFilter('idiom')" id="filter-idiom" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">习语与表达 (<span id="count-idiom">8</span>)</button>
         <button onclick="setFilter('logic')" id="filter-logic" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">论证与修辞 (<span id="count-logic">7</span>)</button>
         <button onclick="setFilter('noun')" id="filter-noun" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">核心名词 (<span id="count-noun">10</span>)</button>
+        <button onclick="setFilter('verb')" id="filter-verb" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">变化动词 (<span id="count-verb">6</span>)</button>
       </div>
 
       <!-- Study Stats Tracker -->
@@ -192,7 +193,7 @@
             </div>
 
             <!-- Main Definition & Nuance (Selectable) -->
-            <div class="my-auto space-y-3 select-text">
+            <div class="my-auto space-y-3 select-text min-h-0 overflow-y-auto">
               <div class="text-center">
                 <h3 id="cardBackMeaning" class="text-xl sm:text-2xl font-bold text-amber-300 tracking-tight cursor-text selection:bg-amber-400 selection:text-slate-900">
                   非常受青睐、走红、吃香
@@ -210,7 +211,7 @@
               <!-- High-level expansion -->
               <div class="text-xs text-slate-300 flex items-start space-x-1.5 cursor-text selection:bg-indigo-500 selection:text-white">
                 <i class="fa-solid fa-arrow-trend-up text-amber-400 text-xs mt-0.5 flex-shrink-0 select-none"></i>
-                <span id="cardBackExpansion">同义替换：être très populaire / être très prisé(e)</span>
+                <span id="cardBackExpansion" class="whitespace-pre-line leading-relaxed">同义替换：être très populaire / être très prisé(e)</span>
               </div>
             </div>
 
@@ -316,6 +317,7 @@
               <option value="idiom">习语与表达</option>
               <option value="logic">论证与修辞</option>
               <option value="noun">核心名词</option>
+              <option value="verb">变化动词</option>
             </select>
           </div>
         </div>
@@ -600,6 +602,66 @@
         zh: "浸泡过的；湿透的",
         quote: "« Trempées dans du vinaigre. »",
         expansion: "动词原形 tremper dans（浸入某物中）",
+        mastered: false
+      },
+      {
+        id: 26,
+        fr: "s'affaiblir",
+        type: "v. pron.",
+        category: "verb",
+        zh: "变弱、减弱、衰退（体力、声音、影响力、货币、需求等）",
+        quote: "« La demande intérieure <strong>s'affaiblit</strong> depuis plusieurs mois. »<br>« Sa voix <strong>s'affaiblissait</strong> peu à peu. »",
+        expansion: "释义：devenir plus faible\n近义：faiblir, diminuer, décliner, décroître, baisser, s'étioler, dépérir\n反义：se renforcer, s'intensifier, s'amplifier, se fortifier, se rétablir\n名词：l'affaiblissement (m.)\n搭配：l'euro s'affaiblit face au dollar ; la croissance / l'influence / le lien social s'affaiblit",
+        mastered: false
+      },
+      {
+        id: 27,
+        fr: "se renforcer",
+        type: "v. pron.",
+        category: "verb",
+        zh: "变强、得到加强、巩固；（趋势、信念）更加明显",
+        quote: "« Les liens entre les deux pays <strong>se sont renforcés</strong>. »<br>« Cette tendance <strong>se renforce</strong> d'année en année. »",
+        expansion: "释义：devenir plus fort\n及物 renforcer qqch：① 使更坚固 ② 增强（队伍、力量）③ 使更强烈\n近义：s'accentuer, s'accuser, se consolider, s'intensifier, se raffermir\n反义：s'affaiblir, s'effriter\n名词：le renforcement\n搭配：renforcer la sécurité / les contrôles / la coopération ; se renforcer mutuellement（相互促进）",
+        mastered: false
+      },
+      {
+        id: 28,
+        fr: "s'accentuer",
+        type: "v. pron.",
+        category: "verb",
+        zh: "加剧、变得更明显、更突出（趋势、差异、压力等）",
+        quote: "« La pression sur les prix <strong>s'accentue</strong>. »<br>« Le phénomène <strong>s'est accentué</strong> depuis la crise sanitaire. »",
+        expansion: "释义：devenir plus intense, plus marqué\n近义：s'intensifier, s'accroître, s'aggraver, s'accuser, se renforcer, augmenter\n反义：s'atténuer, s'effacer, s'estomper\n名词：l'accentuation (f.)\n及物：accentuer = 强调、突出（accentuer les contrastes）；本义：加重音符号、重读\n辨析：s'aggraver 专指变坏；s'accentuer 只说程度加深，较中性",
+        mastered: false
+      },
+      {
+        id: 29,
+        fr: "se creuser",
+        type: "v. pron.",
+        category: "verb",
+        zh: "（差距、赤字、分歧）拉大、加深；（脸颊）凹陷；〔口〕绞尽脑汁",
+        quote: "« Les inégalités entre riches et pauvres <strong>se creusent</strong>. »<br>« Le déficit public <strong>s'est creusé</strong> de deux milliards. »",
+        expansion: "释义：① augmenter, s'agrandir, en parlant d'un écart ② se marquer de creux ③ 〔口〕réfléchir beaucoup\n近义：s'élargir, s'accroître, s'aggraver\n反义：se réduire, se resserrer, se combler\n搭配：l'écart / le fossé / le déficit se creuse ; creuser l'écart（拉开差距）\n口语：se creuser la tête / la cervelle（绞尽脑汁）\n本义：creuser un trou（挖洞）；引申 creuser une question（深入研究）",
+        mastered: false
+      },
+      {
+        id: 30,
+        fr: "s'estomper",
+        type: "v. pron.",
+        category: "verb",
+        zh: "（轮廓）变模糊；（记忆、痛苦、差异）淡化、渐渐消退",
+        quote: "« Avec le temps, les souvenirs <strong>s'estompent</strong>. »<br>« La frontière entre vie privée et vie professionnelle <strong>s'estompe</strong>. »",
+        expansion: "释义：① devenir flou, moins net ② devenir moins fort\n近义：① s'effacer, se voiler, disparaître ② s'atténuer, diminuer, s'affaiblir\n反义：s'accentuer, s'intensifier, se préciser\n及物：estomper un dessin（晕染画面）；estomper les différences（淡化差异）\n词源：l'estompe (f.) 擦笔（素描工具）\n辨析：强调渐进式淡去，多用于抽象事物",
+        mastered: false
+      },
+      {
+        id: 31,
+        fr: "se dégrader",
+        type: "v. pron.",
+        category: "verb",
+        zh: "逐渐恶化、变质、损坏；（局势）变坏；（人）堕落、失去尊严",
+        quote: "« La situation économique <strong>se dégrade</strong>. »<br>« Les conditions de travail <strong>se sont dégradées</strong>. »",
+        expansion: "释义：① se détériorer progressivement ② évoluer défavorablement ③ perdre de sa dignité\n近义：① s'abîmer, s'altérer, se détériorer ② empirer, se gâter, dégénérer, s'envenimer ③ s'avilir, s'abaisser\n反义：s'améliorer, se bonifier\n名词：la dégradation（la dégradation de l'environnement 环境退化）\n形容词：dégradé(e)（un quartier dégradé 破败街区）；n. m. un dégradé 色彩渐变\n注意：dégrader un officier 本义为「革除军衔」",
         mastered: false
       }
     ];
@@ -915,7 +977,8 @@
       const catMap = {
         'idiom': '习语与生动表达',
         'logic': '论证连接与修辞',
-        'noun': '核心名词与专词'
+        'noun': '核心名词与专词',
+        'verb': '趋势与变化动词'
       };
       document.getElementById('cardCategoryBadge').textContent = catMap[item.category] || '核心词汇';
 
@@ -982,7 +1045,7 @@
       currentFilter = cat;
 
       // Update button classes
-      const cats = ['all', 'idiom', 'logic', 'noun'];
+      const cats = ['all', 'idiom', 'logic', 'noun', 'verb'];
       cats.forEach(c => {
         const btn = document.getElementById(`filter-${c}`);
         if (c === cat) {
@@ -1016,6 +1079,7 @@
       document.getElementById('count-idiom').textContent = vocabulary.filter(v => v.category === 'idiom').length;
       document.getElementById('count-logic').textContent = vocabulary.filter(v => v.category === 'logic').length;
       document.getElementById('count-noun').textContent = vocabulary.filter(v => v.category === 'noun').length;
+      document.getElementById('count-verb').textContent = vocabulary.filter(v => v.category === 'verb').length;
     }
 
     function resetProgress() {
