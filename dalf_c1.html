@@ -604,7 +604,25 @@
       }
     ];
 
-    let vocabulary = JSON.parse(localStorage.getItem('dalf_c1_vocab') || 'null') || initialVocabulary;
+    // 文件里的词库为准：本地只保留「已掌握」标记和网页上手动添加的词
+    function loadVocabulary() {
+      let stored = null;
+      try {
+        stored = JSON.parse(localStorage.getItem('dalf_c1_vocab') || 'null');
+      } catch (e) {}
+      if (!Array.isArray(stored)) return initialVocabulary.map(v => ({ ...v }));
+
+      const masteredById = new Map(stored.map(v => [v.id, !!v.mastered]));
+      // 网页上添加的词 id 为 Date.now()，据此识别旧数据中的自定义卡片
+      const customCards = stored.filter(v => v.custom || v.id >= 1e12);
+      const fileCards = initialVocabulary.map(v => ({
+        ...v,
+        mastered: masteredById.has(v.id) ? masteredById.get(v.id) : !!v.mastered
+      }));
+      return [...customCards, ...fileCards];
+    }
+
+    let vocabulary = loadVocabulary();
     let currentFilter = 'all';
     let filteredVocab = [...vocabulary];
     let currentIndex = 0;
@@ -1117,7 +1135,8 @@
         zh,
         quote: quote.startsWith('«') ? quote : `« ${quote} »`,
         expansion,
-        mastered: false
+        mastered: false,
+        custom: true
       };
 
       vocabulary.unshift(newCard);
