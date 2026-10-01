@@ -1,1258 +1,770 @@
-<!DOCTYPE html>
-<html lang="fr" class="h-full">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DALF C1 - Flashcards Vocabulaire & Expressions</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome CDN for modern iconography -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Inter & Playfair Display -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DALF C1 闪卡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f3ec; --panel: #fffdf8; --ink: #22201c; --ink2: #5d584f; --ink3: #8f887c;
+  --line: #e4ddd0; --line2: #efe9de; --accent: #1f5f8b; --accent-soft: #e3eef6;
+  --ok: #2f7d4f; --ok-soft: #e2f1e7; --bad: #b23a3a; --bad-soft: #f8e4e2; --key: #fff4d6; --key-line: #e8cf8a;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #1a1917; --panel: #22211e; --ink: #ebe6dc; --ink2: #b3ac9f; --ink3: #857e72;
+  --line: #3a3732; --line2: #2e2c28; --accent: #7fb6dc; --accent-soft: #23323d;
+  --ok: #6cc08c; --ok-soft: #1f3327; --bad: #e58a84; --bad-soft: #3d2322; --key: #3a3222; --key-line: #6b5a32;
+}}
+:root[data-theme="dark"] {
+  --bg: #1a1917; --panel: #22211e; --ink: #ebe6dc; --ink2: #b3ac9f; --ink3: #857e72;
+  --line: #3a3732; --line2: #2e2c28; --accent: #7fb6dc; --accent-soft: #23323d;
+  --ok: #6cc08c; --ok-soft: #1f3327; --bad: #e58a84; --bad-soft: #3d2322; --key: #3a3222; --key-line: #6b5a32;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+[hidden] { display: none !important; }
 
-  <style>
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    .serif-title {
-      font-family: 'Playfair Display', Georgia, serif;
-    }
-    /* 3D Card Flip Perspective and Surfaces */
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-    .transform-style-preserve-3d {
-      transform-style: preserve-3d;
-    }
-    .backface-hidden {
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-    .rotate-y-180 {
-      transform: rotateY(180deg);
-    }
-    /* Smooth transitions */
-    .card-inner {
-      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    /* Sound wave pulse animation */
-    @keyframes soundwave {
-      0%, 100% { transform: scaleY(0.4); }
-      50% { transform: scaleY(1); }
-    }
-    .wave-bar {
-      animation: soundwave 0.8s ease-in-out infinite;
-    }
-  </style>
+/* ---------- shell (same language as the exam page) ---------- */
+header { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 16px;
+  border-bottom: 1px solid var(--line); background: var(--panel); }
+header h1 { font-size: 16px; margin: 0; font-weight: 600; white-space: nowrap; }
+header h1 small { color: var(--ink3); font-weight: 400; margin-left: 6px; }
+.grow { flex: 1; }
+.tool { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 5px 10px; font-size: 13px; white-space: nowrap; text-decoration: none; color: inherit; }
+.tool:hover { border-color: var(--ink3); }
+.tool.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.btn-main { border: 0; background: var(--accent); color: #fff; border-radius: 10px; padding: 8px 16px; font-weight: 600; font-size: 14px; }
+.seg2 { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg2 button { border: 0; background: var(--panel); padding: 5px 12px; font-size: 13px; color: var(--ink2); }
+.seg2 button + button { border-left: 1px solid var(--line); }
+.seg2 button.on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+main { max-width: 860px; margin: 0 auto; padding: 18px 16px 60px; }
+.bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.pills button { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 4px 12px; font-size: 12.5px; color: var(--ink2); }
+.pills button:hover { border-color: var(--accent); color: var(--accent); }
+.pills button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.stats { font-size: 12.5px; color: var(--ink2); display: flex; align-items: center; gap: 12px; }
+.stats b { color: var(--ink); }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+.link { border: 0; background: none; padding: 0; color: var(--ink3); font-size: 12.5px; text-decoration: underline; }
+.link:hover { color: var(--accent); }
+
+/* ---------- card ---------- */
+.deck { max-width: 620px; margin: 0 auto; }
+.meta { display: flex; align-items: center; justify-content: space-between; font-size: 12.5px; color: var(--ink3); margin-bottom: 8px; }
+.badge { padding: 2px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; font-size: 12px; }
+.progress { height: 5px; border-radius: 3px; background: var(--line2); overflow: hidden; margin-bottom: 16px; }
+.progress div { height: 100%; background: var(--accent); width: 0; transition: width .25s; }
+.card { perspective: 1200px; cursor: pointer; height: 420px; }
+.card-inner { position: relative; width: 100%; height: 100%; transition: transform .45s; transform-style: preserve-3d; }
+.card-inner.flipped { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid var(--line); border-radius: 16px;
+  background: var(--panel); padding: 20px 22px; display: flex; flex-direction: column; box-shadow: 0 6px 22px rgba(0,0,0,.06); }
+.face.back { transform: rotateY(180deg); background: var(--key); border-color: var(--key-line); }
+.face-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11.5px; letter-spacing: .08em; color: var(--ink3); text-transform: uppercase; }
+.icons { display: flex; gap: 6px; align-items: center; text-transform: none; letter-spacing: 0; }
+.ic { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); display: grid; place-items: center; font-size: 14px; padding: 0; color: var(--ink2); }
+.ic:hover { border-color: var(--accent); color: var(--accent); }
+.ic.wide { width: auto; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.ic.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.face-mid { flex: 1; display: flex; flex-direction: column; text-align: center; min-height: 0; overflow-y: auto; cursor: text; margin: 10px 0; }
+.face-mid > .in { margin: auto 0; }
+.word { font: 600 32px/1.2 var(--serif); margin: 0 0 8px; }
+.type { font-size: 13px; color: var(--ink3); }
+.zh { font: 600 22px/1.35 var(--sans); margin: 0 0 12px; }
+.quote { text-align: left; background: color-mix(in srgb, var(--panel) 70%, transparent); border: 1px solid var(--key-line); border-radius: 10px; padding: 10px 12px;
+  font: italic 15.5px/1.55 var(--serif); }
+.quote strong { font-style: normal; color: var(--accent); }
+.quote .lbl { display: block; font: 600 11px var(--sans); font-style: normal; letter-spacing: .06em; color: var(--ink3); margin-bottom: 4px; }
+.expansion { text-align: left; font-size: 13.5px; color: var(--ink2); margin-top: 10px; line-height: 1.6; white-space: pre-line; }
+.face-bot { border-top: 1px solid var(--line2); padding-top: 10px; display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; color: var(--ink3); }
+.face.back .face-bot { border-top-color: var(--key-line); }
+.face-bot .hint { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--serif); font-style: italic; }
+.face-bot .flip { color: var(--accent); white-space: nowrap; font-weight: 600; }
+.nav { display: flex; gap: 10px; margin-top: 16px; }
+.nav button { flex: 1; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 11px 12px; font-size: 14px; font-weight: 600; }
+.nav button:hover { border-color: var(--ink3); }
+.nav .next { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nav .master { flex: 1.2; background: var(--ok-soft); border-color: transparent; color: var(--ok); }
+.nav .master.done { background: var(--ok); color: #fff; }
+.under { margin-top: 12px; text-align: center; font-size: 12.5px; color: var(--ink3); }
+.empty { text-align: center; color: var(--ink3); padding: 60px 0; }
+
+/* ---------- list ---------- */
+.search { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); font: 15px var(--sans); margin-bottom: 12px; }
+.search:focus, .modal input:focus, .modal select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+.rows { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); overflow: hidden; }
+.row { display: grid; grid-template-columns: 30px 1fr auto; gap: 4px 10px; padding: 11px 14px; border-top: 1px solid var(--line2); align-items: start; }
+.row:first-child { border-top: 0; }
+.row .chk { border: 0; background: none; padding: 2px 0 0; font-size: 17px; color: var(--line); }
+.row .chk.done { color: var(--ok); }
+.row .fr { font: 600 16.5px var(--serif); }
+.row .ty { font-size: 12px; color: var(--ink3); margin-left: 6px; font-weight: 400; font-family: var(--sans); }
+.row .zhs { font-size: 14px; margin-top: 2px; }
+.row .q { font: italic 13.5px/1.5 var(--serif); color: var(--ink2); margin-top: 4px; }
+.row .q strong { font-style: normal; color: var(--accent); }
+.row .ex { font-size: 12.5px; color: var(--ink3); margin-top: 3px; white-space: pre-line; }
+.row .acts { display: flex; gap: 4px; }
+.row .acts button { border: 0; background: none; padding: 4px 6px; border-radius: 6px; color: var(--ink3); font-size: 14px; }
+.row .acts button:hover { background: var(--line2); color: var(--accent); }
+.row .acts .del:hover { color: var(--bad); }
+
+/* ---------- modal + toast ---------- */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; place-items: center; z-index: 20; padding: 16px; }
+.modal-bg.open { display: grid; }
+.modal { background: var(--panel); border-radius: 14px; padding: 20px 22px; width: min(520px, 100%); max-height: 90vh; overflow: auto; border: 1px solid var(--line); }
+.modal h3 { margin: 0 0 6px; font-size: 16px; }
+.modal label { display: block; font-size: 12.5px; color: var(--ink2); margin: 12px 0 4px; }
+.modal input, .modal select { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 15px var(--sans); }
+.modal .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.modal .acts { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; }
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 30; background: var(--ink); color: var(--panel); border-radius: 12px; padding: 10px 16px;
+  font-size: 13.5px; max-width: calc(100vw - 32px); box-shadow: 0 8px 28px rgba(0,0,0,.25); opacity: 0; pointer-events: none; transition: opacity .2s; }
+.toast.open { opacity: 1; }
+
+@media (max-width: 560px) {
+  header h1 small, .opt-hide-sm { display: none; }
+  .card { height: 460px; }
+  .word { font-size: 27px; } .zh { font-size: 21px; }
+  .modal .two { grid-template-columns: 1fr; }
+  .nav button { padding: 11px 6px; font-size: 13.5px; }
+}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-full flex flex-col antialiased selection:bg-indigo-100 selection:text-indigo-800">
+<body>
+<header>
+  <h1>DALF C1 闪卡<small>听力 · 阅读 · Dictée 生词与表达</small></h1>
+  <span class="grow"></span>
+  <span class="seg2"><button id="tabCards" class="on">闪卡</button><button id="tabList">清单</button></span>
+  <button class="tool" id="btnExport" title="导出全部卡片（含掌握进度）为 cards.json">导出</button>
+  <button class="tool" id="btnImport" title="导入 cards.json 并合并，不覆盖已有卡片">导入</button>
+  <input type="file" id="importFile" accept="application/json,.json" hidden>
+  <button class="tool" id="btnAdd">＋ 新增</button>
+  <button class="tool" id="btnTheme" title="切换深浅色">◐</button>
+</header>
 
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
-          <i class="fa-solid fa-graduation-cap text-lg"></i>
-        </div>
-        <div>
-          <h1 class="text-base sm:text-lg font-bold text-slate-900 leading-tight">DALF C1 核心词汇闪卡</h1>
-          <p class="text-xs text-slate-500">Les Épices en Suisse · 瑞士香料听力专练</p>
-        </div>
-      </div>
-
-      <!-- Mode Switcher & Add Button -->
-      <div class="flex items-center space-x-2">
-        <div class="bg-slate-100 p-1 rounded-xl flex items-center border border-slate-200 text-xs font-medium">
-          <button id="tabCards" onclick="switchView('cards')" class="px-3 py-1.5 rounded-lg bg-white shadow-xs text-indigo-600 transition">
-            <i class="fa-solid fa-layer-group mr-1.5"></i>闪卡
-          </button>
-          <button id="tabList" onclick="switchView('list')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
-            <i class="fa-solid fa-table-list mr-1.5"></i>清单
-          </button>
-        </div>
-        <button onclick="openAddModal()" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-sm transition flex items-center">
-          <i class="fa-solid fa-plus sm:mr-1.5"></i>
-          <span class="hidden sm:inline">新增词汇</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 flex flex-col">
-    
-    <!-- Top Filter & Stats Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-      <!-- Category Filter Pills -->
-      <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 text-xs">
-        <button onclick="setFilter('all')" id="filter-all" class="px-3 py-1.5 rounded-full bg-indigo-600 text-white font-medium shadow-xs whitespace-nowrap">全部 (<span id="count-all">31</span>)</button>
-        <button onclick="setFilter('idiom')" id="filter-idiom" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">习语与表达 (<span id="count-idiom">8</span>)</button>
-        <button onclick="setFilter('logic')" id="filter-logic" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">论证与修辞 (<span id="count-logic">7</span>)</button>
-        <button onclick="setFilter('noun')" id="filter-noun" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">核心名词 (<span id="count-noun">10</span>)</button>
-        <button onclick="setFilter('verb')" id="filter-verb" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap">变化动词 (<span id="count-verb">6</span>)</button>
-      </div>
-
-      <!-- Study Stats Tracker -->
-      <div class="flex items-center space-x-4 text-xs font-medium text-slate-500 self-end sm:self-auto">
-        <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 mr-1.5"></span>已掌握: <strong id="masteredCount" class="text-slate-800 ml-1">0</strong></span>
-        <span class="flex items-center"><span class="w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span>待复习: <strong id="reviewCount" class="text-slate-800 ml-1">25</strong></span>
-        <button onclick="resetProgress()" title="重置学习进度" class="text-slate-400 hover:text-slate-600 transition ml-2">
-          <i class="fa-solid fa-arrow-rotate-left"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- VIEW 1: FLASHCARD INTERACTIVE VIEW -->
-    <div id="cardsView" class="flex-1 flex flex-col items-center justify-center">
-      
-      <!-- Progress Bar above card -->
-      <div class="w-full max-w-xl mb-3 flex items-center justify-between text-xs text-slate-500">
-        <span id="currentCardIndexText">第 1 / 25 张</span>
-        <div class="flex items-center space-x-2">
-          <span id="audioSourceBadge" class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <i class="fa-solid fa-sparkles mr-1 text-[9px]"></i>AI 高清法语
-          </span>
-          <span id="cardCategoryBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
-            习语与表达
-          </span>
-        </div>
-      </div>
-      <div class="w-full max-w-xl bg-slate-200 h-1.5 rounded-full mb-5 overflow-hidden">
-        <div id="progressBar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 4%;"></div>
-      </div>
-
-      <!-- 3D Flashcard Element -->
-      <div class="w-full max-w-xl h-80 sm:h-96 perspective-1000 cursor-pointer" onclick="handleCardContainerClick(event)">
-        <div id="cardInner" class="card-inner relative w-full h-full transform-style-preserve-3d">
-          
-          <!-- FRONT FACE (French Word) -->
-          <div class="backface-hidden absolute inset-0 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xl shadow-slate-200/50 flex flex-col justify-between hover:border-indigo-300 transition-colors">
-            <div class="flex items-center justify-between text-slate-400">
-              <span class="text-xs uppercase tracking-wider font-semibold text-slate-400 flex items-center select-none">
-                <i class="fa-regular fa-lightbulb text-amber-500 mr-1.5"></i>FRANÇAIS (C1)
-              </span>
-              <!-- Tool actions: Speed, Copy, Dictionary, Pronounce -->
-              <div class="flex items-center space-x-1.5 no-flip select-none">
-                <button onclick="toggleSpeechSpeed(event)" id="speedBtn" title="切换发音语速" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-[11px] font-bold transition">
-                  1.0x
-                </button>
-                <button onclick="copyCurrentWord(event)" title="复制该法语表达" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-indigo-600 transition flex items-center justify-center">
-                  <i class="fa-regular fa-copy text-xs"></i>
-                </button>
-                <button onclick="openExternalDictionary(event)" title="在 Larousse 权威词典中查阅" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-indigo-600 transition flex items-center justify-center">
-                  <i class="fa-solid fa-book-bookmark text-xs"></i>
-                </button>
-                <button id="cardSpeakBtn" onclick="speakWord(event)" title="AI 真人纯正法语发音" class="w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white transition flex items-center justify-center shadow-sm shadow-indigo-200">
-                  <i id="cardSpeakIcon" class="fa-solid fa-volume-high text-xs"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- Main Word Display (Selectable Text) -->
-            <div class="text-center my-auto px-2 select-text">
-              <h2 id="cardFrontText" class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight serif-title mb-2 selection:bg-indigo-200 selection:text-indigo-900 cursor-text">
-                avoir la cote
-              </h2>
-              <p id="cardFrontType" class="text-xs font-medium text-slate-400 selection:bg-indigo-200 selection:text-indigo-900">
-                [loc. verbale]
-              </p>
-            </div>
-
-            <!-- Hint & Flip Guide -->
-            <div class="border-t border-slate-100 pt-3 flex items-center justify-between text-xs text-slate-400 select-none">
-              <span id="cardHintPreview" class="truncate max-w-[280px] select-text cursor-text">💡 听力原句：...avec les épices qui ont la cote...</span>
-              <span class="text-indigo-500 font-medium flex items-center">
-                点击翻转 <i class="fa-solid fa-arrows-rotate ml-1 text-[10px]"></i>
-              </span>
-            </div>
-          </div>
-
-          <!-- BACK FACE (Chinese Definition & Context) -->
-          <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
-            <div class="flex items-center justify-between text-indigo-300 text-xs select-none">
-              <span class="uppercase tracking-wider font-semibold">DÉFINITION & CONTEXTE</span>
-              <div class="flex items-center space-x-2">
-                <button onclick="speakWord(event)" title="再次朗读发音" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-indigo-200 transition flex items-center justify-center no-flip">
-                  <i class="fa-solid fa-volume-high text-xs"></i>
-                </button>
-                <span id="backTypeBadge" class="bg-indigo-800/60 px-2 py-0.5 rounded text-[11px] border border-indigo-700/50">loc. verb.</span>
-              </div>
-            </div>
-
-            <!-- Main Definition & Nuance (Selectable) -->
-            <div class="my-auto space-y-3 select-text min-h-0 overflow-y-auto">
-              <div class="text-center">
-                <h3 id="cardBackMeaning" class="text-xl sm:text-2xl font-bold text-amber-300 tracking-tight cursor-text selection:bg-amber-400 selection:text-slate-900">
-                  非常受青睐、走红、吃香
-                </h3>
-              </div>
-              
-              <!-- Real Listening Context Quote -->
-              <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10 text-xs text-slate-200">
-                <div class="text-indigo-300 text-[10px] font-semibold uppercase mb-1 select-none">听力原句与语境</div>
-                <p id="cardBackQuote" class="italic text-slate-100 leading-relaxed cursor-text selection:bg-indigo-500 selection:text-white">
-                  « ...avec les épices qui <strong>ont la cote</strong> en Suisse. »
-                </p>
-              </div>
-
-              <!-- High-level expansion -->
-              <div class="text-xs text-slate-300 flex items-start space-x-1.5 cursor-text selection:bg-indigo-500 selection:text-white">
-                <i class="fa-solid fa-arrow-trend-up text-amber-400 text-xs mt-0.5 flex-shrink-0 select-none"></i>
-                <span id="cardBackExpansion" class="whitespace-pre-line leading-relaxed">同义替换：être très populaire / être très prisé(e)</span>
-              </div>
-            </div>
-
-            <div class="border-t border-white/10 pt-3 flex items-center justify-between text-xs text-slate-400 select-none">
-              <span>快捷键: 空格翻转 / ← → 切换 / M 掌握</span>
-              <span class="text-indigo-300 font-medium">点击返回正面</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Navigation Controls -->
-      <div class="w-full max-w-xl mt-6 flex items-center justify-between gap-3">
-        <!-- Prev Button -->
-        <button onclick="prevCard()" class="flex-1 py-3 px-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-semibold shadow-xs transition flex items-center justify-center space-x-2">
-          <i class="fa-solid fa-arrow-left"></i>
-          <span>上一个</span>
-        </button>
-
-        <!-- Toggle Mastery Status -->
-        <button id="markMasterBtn" onclick="toggleMastered()" class="py-3 px-5 rounded-2xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-700 text-sm font-semibold transition flex items-center space-x-2">
-          <i id="masteredIcon" class="fa-regular fa-circle-check text-base"></i>
-          <span id="masteredLabel">标为已掌握</span>
-        </button>
-
-        <!-- Next Button -->
-        <button onclick="nextCard()" class="flex-1 py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-md shadow-indigo-200 transition flex items-center justify-center space-x-2">
-          <span>下一个</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
-
-      <!-- Shuffle & Voice Tip -->
-      <div class="mt-4 flex items-center space-x-4 text-xs text-slate-400">
-        <button onclick="shuffleCards()" class="hover:text-indigo-600 transition flex items-center">
-          <i class="fa-solid fa-shuffle mr-1"></i>随机打乱顺序
-        </button>
-        <span>·</span>
-        <span>提示：鼠标可直接选中生词；已启用真人级标准法语语音</span>
-      </div>
-
-    </div>
-
-    <!-- VIEW 2: FULL TABLE / LIST VIEW -->
-    <div id="listView" class="hidden flex-1 flex-col">
-      <!-- Search Input in List View -->
-      <div class="mb-4 relative">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-        <input type="text" id="searchInput" oninput="renderTableView()" placeholder="搜索法语单词、词组、中文释义..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
-      </div>
-
-      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider border-b border-slate-200 font-semibold">
-              <tr>
-                <th class="py-3 px-4 w-12 text-center">状态</th>
-                <th class="py-3 px-4">法语词汇 / 表达</th>
-                <th class="py-3 px-4">词性 / 分类</th>
-                <th class="py-3 px-4">中文释义</th>
-                <th class="py-3 px-4">听力原句 & 语境</th>
-                <th class="py-3 px-4">C1 进阶拓展</th>
-                <th class="py-3 px-3 w-16 text-center">发音</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700">
-              <!-- Dynamically rendered rows -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- MODAL: ADD NEW WORD -->
-  <div id="addModal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h3 class="text-base font-bold text-slate-900 flex items-center">
-          <i class="fa-solid fa-square-plus text-indigo-600 mr-2"></i>添加新词汇至闪卡库
-        </h3>
-        <button onclick="closeAddModal()" class="w-8 h-8 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition flex items-center justify-center">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <form id="newWordForm" onsubmit="handleAddNewWord(event)" class="space-y-3.5 mt-4 text-xs">
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">法语生词 / 词组 <span class="text-rose-500">*</span></label>
-          <input type="text" id="newWordFr" required placeholder="如：prendre son envol" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800">
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">词性 / 结构</label>
-            <input type="text" id="newWordType" placeholder="如：loc. verb. / n. f." class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800">
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">类别归属</label>
-            <select id="newWordCat" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800">
-              <option value="idiom">习语与表达</option>
-              <option value="logic">论证与修辞</option>
-              <option value="noun">核心名词</option>
-              <option value="verb">变化动词</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">中文精准释义 <span class="text-rose-500">*</span></label>
-          <input type="text" id="newWordZh" required placeholder="如：展翅起飞；事业腾飞" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800">
-        </div>
-
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">听力原句 / 语境例句</label>
-          <textarea id="newWordQuote" rows="2" placeholder="听力中的完整句子或典型搭配..." class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800"></textarea>
-        </div>
-
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">C1 拓展说明 / 同义替换</label>
-          <input type="text" id="newWordExpansion" placeholder="如：同义词：décoller, connaître une ascension" class="w-full px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800">
-        </div>
-
-        <div class="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
-          <button type="button" onclick="closeAddModal()" class="px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold transition">取消</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-sm transition">加入闪卡库</button>
-        </div>
-      </form>
+<main>
+  <div class="bar">
+    <div class="pills" id="pills"></div>
+    <span class="grow"></span>
+    <div class="stats">
+      <span><span class="dot" style="background:var(--ok)"></span>已掌握 <b id="nMastered">0</b></span>
+      <span><span class="dot" style="background:var(--key-line)"></span>待复习 <b id="nReview">0</b></span>
+      <button class="tool" id="btnOnlyTodo" title="只显示还没掌握的卡片">只看未掌握</button>
+      <button class="link" id="btnReset" title="把所有卡片标回未掌握">重置进度</button>
     </div>
   </div>
 
-  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-2xl shadow-xl border border-slate-800 flex items-center space-x-2 opacity-0 pointer-events-none transition-all duration-300 z-50">
-    <i id="toastIcon" class="fa-solid fa-check text-emerald-400"></i>
-    <span id="toastMsg">通知内容</span>
+  <!-- cards -->
+  <section id="viewCards">
+    <div class="deck" id="deck">
+      <div class="meta"><span id="pos"></span><span class="badge" id="catBadge"></span></div>
+      <div class="progress"><div id="progress"></div></div>
+      <div class="card" id="card">
+        <div class="card-inner" id="cardInner">
+          <div class="face front">
+            <div class="face-top"><span>Français · C1</span>
+              <span class="icons">
+                <button class="ic wide" id="btnSpeed" title="切换朗读语速">1.0×</button>
+                <button class="ic" id="btnCopy" title="复制">⧉</button>
+                <button class="ic" id="btnDict" title="在 Larousse 词典里查">📖</button>
+                <button class="ic primary" id="btnSpeak" title="朗读">🔊</button>
+              </span>
+            </div>
+            <div class="face-mid"><div class="in"><h2 class="word" id="word"></h2><div class="type" id="type"></div></div></div>
+            <div class="face-bot"><span class="hint" id="hint"></span><span class="flip">点击翻转 ⟳</span></div>
+          </div>
+          <div class="face back">
+            <div class="face-top"><span>释义与语境</span>
+              <span class="icons"><span class="badge" id="typeBack"></span><button class="ic" id="btnSpeak2" title="朗读">🔊</button></span>
+            </div>
+            <div class="face-mid"><div class="in">
+              <h3 class="zh" id="zh"></h3>
+              <div class="quote"><span class="lbl">原句<span id="source"></span></span><span id="quote"></span></div>
+              <div class="expansion" id="expansion"></div>
+            </div></div>
+            <div class="face-bot"><span><span class="opt-hide-sm">空格翻转 · ← → 切换 · M 掌握</span></span><span class="flip">点击返回正面</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav">
+        <button id="btnPrev">← 上一个</button>
+        <button class="master" id="btnMaster">标为已掌握</button>
+        <button class="next" id="btnNext">下一个 →</button>
+      </div>
+      <div class="under"><button class="link" id="btnShuffle">随机打乱顺序</button></div>
+    </div>
+    <p class="empty" id="deckEmpty" hidden>这个筛选下没有卡片。</p>
+  </section>
+
+  <!-- list -->
+  <section id="viewList" hidden>
+    <input class="search" id="search" type="search" placeholder="搜索法语、中文释义、原句…">
+    <div class="rows" id="rows"></div>
+  </section>
+</main>
+
+<div class="modal-bg" id="addModal"><form class="modal" id="addForm">
+  <h3>新增卡片</h3>
+  <label>法语词或表达 *</label><input id="fFr" required placeholder="avoir la cote" spellcheck="false">
+  <div class="two">
+    <div><label>词性</label><input id="fType" placeholder="loc. verb. / n. f. / adj." spellcheck="false"></div>
+    <div><label>分类</label><select id="fCat"></select></div>
   </div>
-
-  <!-- SCRIPT LOGIC -->
-  <script>
-    // Complete 25 items extracted from DALF C1 Suisse podcast
-    const initialVocabulary = [
-      {
-        id: 1,
-        fr: "avoir la cote",
-        type: "loc. verb.",
-        category: "idiom",
-        zh: "非常受青睐、走红、吃香",
-        quote: "« ...avec les épices qui ont la cote en Suisse. »",
-        expansion: "同义替换：être très populaire / être très prisé(e)",
-        mastered: false
-      },
-      {
-        id: 2,
-        fr: "caracoler en tête",
-        type: "loc. verb.",
-        category: "idiom",
-        zh: "遥遥领先、高居榜首",
-        quote: "« ...gingembre, piment et poivre caracolent en tête... »",
-        expansion: "赛马引申：指在统计数据或经济排名中处于第一位",
-        mastered: false
-      },
-      {
-        id: 3,
-        fr: "prendre l'ascenseur",
-        type: "loc. verb.",
-        category: "idiom",
-        zh: "（价格等）急剧攀升、飙升",
-        quote: "« Oui, le prix des épices vendues au kilo prennent l'ascenseur. »",
-        expansion: "生动形象表达。同义：grimper en flèche, flamber",
-        mastered: false
-      },
-      {
-        id: 4,
-        fr: "faire un malheur",
-        type: "loc. verb.",
-        category: "idiom",
-        zh: "大获成功、大受好评、极为畅销",
-        quote: "« Oui, le gingembre qui fait un malheur en Suisse... »",
-        expansion: "反意修辞：非“灾祸”，而是 remporter un vif succès",
-        mastered: false
-      },
-      {
-        id: 5,
-        fr: "donner un coup de fouet",
-        type: "loc. verb.",
-        category: "idiom",
-        zh: "令人振奋、提神醒脑、注入活力",
-        quote: "« ...un univers de concentré de gingembre qui donne un coup de fouet. »",
-        expansion: "引申：带来立竿见影的刺激作用（stimuler immédiatement）",
-        mastered: false
-      },
-      {
-        id: 6,
-        fr: "la facture est salée",
-        type: "loc. verb.",
-        category: "idiom",
-        zh: "账单沉重、开销昂贵",
-        quote: "« Côté prix, la facture des épices est-elle salée...? »",
-        expansion: "双关修辞：salé(e) 原意指咸味调料，此处指价格极高",
-        mastered: false
-      },
-      {
-        id: 7,
-        fr: "éplucher",
-        type: "v. tr.",
-        category: "idiom",
-        zh: "削皮；深入剖析、严密审查",
-        quote: "« Bastien Von Wyss, il a creusé le sujet et épluché le gingembre. »",
-        expansion: "双关：给生姜削皮 vs 严密核查（scruter / examiner de près）",
-        mastered: false
-      },
-      {
-        id: 8,
-        fr: "légende urbaine",
-        type: "loc. nom. f.",
-        category: "idiom",
-        zh: "都市传说、毫无根据的民间传闻",
-        quote: "« Ben alors, vérité ou légende urbaine ? »",
-        expansion: "常与 mythe, rumeur infondée 互换，反义为 fait avéré",
-        mastered: false
-      },
-      {
-        id: 9,
-        fr: "en l'occurrence",
-        type: "loc. adv.",
-        category: "logic",
-        zh: "在这种情况下、具体来说",
-        quote: "« ...le poivre est importé en l'occurrence du Cambodge ou du Vietnam... »",
-        expansion: "议论文高阶连接词，明确聚焦于具体讨论的对象",
-        mastered: false
-      },
-      {
-        id: 10,
-        fr: "prendre en compte",
-        type: "loc. verb.",
-        category: "logic",
-        zh: "考虑到、将……纳入考量",
-        quote: "« ...les douanes prennent toujours en compte le lieu de la dernière transformation... »",
-        expansion: "C1 议论高频：同义于 prendre en considération",
-        mastered: false
-      },
-      {
-        id: 11,
-        fr: "en provenance de",
-        type: "loc. prép.",
-        category: "logic",
-        zh: "来自、源自、始发于",
-        quote: "« ...des vagues successives de migration en provenance de Méditerranée... »",
-        expansion: "接产地或始发地，相当于 originaire de / venant de",
-        mastered: false
-      },
-      {
-        id: 12,
-        fr: "fulgurant, -e",
-        type: "adj.",
-        category: "logic",
-        zh: "极迅猛的、闪电般的",
-        quote: "« ...comment expliquer le succès fulgurant des épices sur les tables suisses ? »",
-        expansion: "固定高阶搭配：ascension fulgurante / hausse fulgurante",
-        mastered: false
-      },
-      {
-        id: 13,
-        fr: "corsé, -e",
-        type: "adj.",
-        category: "logic",
-        zh: "浓烈的；辛辣刺激的、棘手的",
-        quote: "« Une info corsée qui va pimenter cette émission... »",
-        expansion: "既指食物浓郁，又指有内涵、有挑战性（piquante / relevée）",
-        mastered: false
-      },
-      {
-        id: 14,
-        fr: "métissé, -e",
-        type: "adj.",
-        category: "logic",
-        zh: "混血的、文化交融的、多元融合的",
-        quote: "« Oui, la société suisse est de plus en plus métissée. »",
-        expansion: "名词形式为 le métissage culturel（文化融汇）",
-        mastered: false
-      },
-      {
-        id: 15,
-        fr: "assaisonner",
-        type: "v. tr.",
-        category: "logic",
-        zh: "调味；使言论更有风趣",
-        quote: "« ...assaisonner un plat... »",
-        expansion: "派生词：l'assaisonnement (m.)；比喻用法为 pimenter",
-        mastered: false
-      },
-      {
-        id: 16,
-        fr: "le gingembre",
-        type: "n. m.",
-        category: "noun",
-        zh: "生姜",
-        quote: "« Le gingembre qui représente un tiers des importations totales... »",
-        expansion: "注意阴阳性为阳性 (un gingembre)",
-        mastered: false
-      },
-      {
-        id: 17,
-        fr: "le piment",
-        type: "n. m.",
-        category: "noun",
-        zh: "辣椒",
-        quote: "« Ensuite, il y a le piment. 26 % des importations d'épices. »",
-        expansion: "衍生动词：pimenter（使更有刺激性/生动）",
-        mastered: false
-      },
-      {
-        id: 18,
-        fr: "le poivre",
-        type: "n. m.",
-        category: "noun",
-        zh: "胡椒",
-        quote: "« Le poivre arrive en troisième position. »",
-        expansion: "阳性名词，复合词如 le poivre de Cayenne",
-        mastered: false
-      },
-      {
-        id: 19,
-        fr: "le vinaigre",
-        type: "n. m.",
-        category: "noun",
-        zh: "醋",
-        quote: "« Trempées dans du vinaigre. »",
-        expansion: "词源构成：vin (酒) + aigre (酸的)",
-        mastered: false
-      },
-      {
-        id: 20,
-        fr: "l'importation",
-        type: "n. f.",
-        category: "noun",
-        zh: "进口、输入",
-        quote: "« Les importations ont augmenté de 55 % ces dix dernières années... »",
-        expansion: "反义词：l'exportation (f.) 出口",
-        mastered: false
-      },
-      {
-        id: 21,
-        fr: "la douane",
-        type: "n. f.",
-        category: "noun",
-        zh: "海关；关税 (droits de douane)",
-        quote: "« ...l'Office Fédéral de la Douane et de la sécurité des Frontières. »",
-        expansion: "瑞士机构缩写：OFDF",
-        mastered: false
-      },
-      {
-        id: 22,
-        fr: "l'allusion",
-        type: "n. f.",
-        category: "noun",
-        zh: "暗指、暗示、影射",
-        quote: "« ...l'allusion à la fameuse vertu aphrodisiaque du gingembre. »",
-        expansion: "固定句型搭配：faire allusion à qch (暗示某事)",
-        mastered: false
-      },
-      {
-        id: 23,
-        fr: "la chronique",
-        type: "n. f.",
-        category: "noun",
-        zh: "时评短评、电台专栏",
-        quote: "« Chronique piquante signée Louis, 11 ans et Xavier Bloc'h... »",
-        expansion: "专栏记者/评述员为 chroniqueur / chroniqueuse",
-        mastered: false
-      },
-      {
-        id: 24,
-        fr: "matinal, -e",
-        type: "adj.",
-        category: "noun",
-        zh: "清晨的、早晨的；早起的",
-        quote: "« ...c'est le fameux shot de gingembre matinal. »",
-        expansion: "复数阳性形式为 matinaux",
-        mastered: false
-      },
-      {
-        id: 25,
-        fr: "trempé, -e",
-        type: "adj. / p. p.",
-        category: "noun",
-        zh: "浸泡过的；湿透的",
-        quote: "« Trempées dans du vinaigre. »",
-        expansion: "动词原形 tremper dans（浸入某物中）",
-        mastered: false
-      },
-      {
-        id: 26,
-        fr: "s'affaiblir",
-        type: "v. pron.",
-        category: "verb",
-        zh: "变弱、减弱、衰退（体力、声音、影响力、货币、需求等）",
-        quote: "« La demande intérieure <strong>s'affaiblit</strong> depuis plusieurs mois. »<br>« Sa voix <strong>s'affaiblissait</strong> peu à peu. »",
-        expansion: "释义：devenir plus faible\n近义：faiblir, diminuer, décliner, décroître, baisser, s'étioler, dépérir\n反义：se renforcer, s'intensifier, s'amplifier, se fortifier, se rétablir\n名词：l'affaiblissement (m.)\n搭配：l'euro s'affaiblit face au dollar ; la croissance / l'influence / le lien social s'affaiblit",
-        mastered: false
-      },
-      {
-        id: 27,
-        fr: "se renforcer",
-        type: "v. pron.",
-        category: "verb",
-        zh: "变强、得到加强、巩固；（趋势、信念）更加明显",
-        quote: "« Les liens entre les deux pays <strong>se sont renforcés</strong>. »<br>« Cette tendance <strong>se renforce</strong> d'année en année. »",
-        expansion: "释义：devenir plus fort\n及物 renforcer qqch：① 使更坚固 ② 增强（队伍、力量）③ 使更强烈\n近义：s'accentuer, s'accuser, se consolider, s'intensifier, se raffermir\n反义：s'affaiblir, s'effriter\n名词：le renforcement\n搭配：renforcer la sécurité / les contrôles / la coopération ; se renforcer mutuellement（相互促进）",
-        mastered: false
-      },
-      {
-        id: 28,
-        fr: "s'accentuer",
-        type: "v. pron.",
-        category: "verb",
-        zh: "加剧、变得更明显、更突出（趋势、差异、压力等）",
-        quote: "« La pression sur les prix <strong>s'accentue</strong>. »<br>« Le phénomène <strong>s'est accentué</strong> depuis la crise sanitaire. »",
-        expansion: "释义：devenir plus intense, plus marqué\n近义：s'intensifier, s'accroître, s'aggraver, s'accuser, se renforcer, augmenter\n反义：s'atténuer, s'effacer, s'estomper\n名词：l'accentuation (f.)\n及物：accentuer = 强调、突出（accentuer les contrastes）；本义：加重音符号、重读\n辨析：s'aggraver 专指变坏；s'accentuer 只说程度加深，较中性",
-        mastered: false
-      },
-      {
-        id: 29,
-        fr: "se creuser",
-        type: "v. pron.",
-        category: "verb",
-        zh: "（差距、赤字、分歧）拉大、加深；（脸颊）凹陷；〔口〕绞尽脑汁",
-        quote: "« Les inégalités entre riches et pauvres <strong>se creusent</strong>. »<br>« Le déficit public <strong>s'est creusé</strong> de deux milliards. »",
-        expansion: "释义：① augmenter, s'agrandir, en parlant d'un écart ② se marquer de creux ③ 〔口〕réfléchir beaucoup\n近义：s'élargir, s'accroître, s'aggraver\n反义：se réduire, se resserrer, se combler\n搭配：l'écart / le fossé / le déficit se creuse ; creuser l'écart（拉开差距）\n口语：se creuser la tête / la cervelle（绞尽脑汁）\n本义：creuser un trou（挖洞）；引申 creuser une question（深入研究）",
-        mastered: false
-      },
-      {
-        id: 30,
-        fr: "s'estomper",
-        type: "v. pron.",
-        category: "verb",
-        zh: "（轮廓）变模糊；（记忆、痛苦、差异）淡化、渐渐消退",
-        quote: "« Avec le temps, les souvenirs <strong>s'estompent</strong>. »<br>« La frontière entre vie privée et vie professionnelle <strong>s'estompe</strong>. »",
-        expansion: "释义：① devenir flou, moins net ② devenir moins fort\n近义：① s'effacer, se voiler, disparaître ② s'atténuer, diminuer, s'affaiblir\n反义：s'accentuer, s'intensifier, se préciser\n及物：estomper un dessin（晕染画面）；estomper les différences（淡化差异）\n词源：l'estompe (f.) 擦笔（素描工具）\n辨析：强调渐进式淡去，多用于抽象事物",
-        mastered: false
-      },
-      {
-        id: 31,
-        fr: "se dégrader",
-        type: "v. pron.",
-        category: "verb",
-        zh: "逐渐恶化、变质、损坏；（局势）变坏；（人）堕落、失去尊严",
-        quote: "« La situation économique <strong>se dégrade</strong>. »<br>« Les conditions de travail <strong>se sont dégradées</strong>. »",
-        expansion: "释义：① se détériorer progressivement ② évoluer défavorablement ③ perdre de sa dignité\n近义：① s'abîmer, s'altérer, se détériorer ② empirer, se gâter, dégénérer, s'envenimer ③ s'avilir, s'abaisser\n反义：s'améliorer, se bonifier\n名词：la dégradation（la dégradation de l'environnement 环境退化）\n形容词：dégradé(e)（un quartier dégradé 破败街区）；n. m. un dégradé 色彩渐变\n注意：dégrader un officier 本义为「革除军衔」",
-        mastered: false
-      }
-    ];
-
-    // 文件里的词库为准：本地只保留「已掌握」标记和网页上手动添加的词
-    function loadVocabulary() {
-      let stored = null;
-      try {
-        stored = JSON.parse(localStorage.getItem('dalf_c1_vocab') || 'null');
-      } catch (e) {}
-      if (!Array.isArray(stored)) return initialVocabulary.map(v => ({ ...v }));
-
-      const masteredById = new Map(stored.map(v => [v.id, !!v.mastered]));
-      // 网页上添加的词 id 为 Date.now()，据此识别旧数据中的自定义卡片
-      const customCards = stored.filter(v => v.custom || v.id >= 1e12);
-      const fileCards = initialVocabulary.map(v => ({
-        ...v,
-        mastered: masteredById.has(v.id) ? masteredById.get(v.id) : !!v.mastered
-      }));
-      return [...customCards, ...fileCards];
-    }
-
-    let vocabulary = loadVocabulary();
-    let currentFilter = 'all';
-    let filteredVocab = [...vocabulary];
-    let currentIndex = 0;
-    let isFlipped = false;
-    let speechRate = 1.0;
-    const ttsAudioCache = new Map();
-    let currentAudioElement = null;
-
-    function handleCardContainerClick(e) {
-      // 1. If user is currently highlighting / selecting text with mouse, DO NOT flip
-      const selection = window.getSelection();
-      if (selection && selection.toString().trim().length > 0) {
-        return;
-      }
-
-      // 2. If the user clicked inside a button, input or .no-flip action element, DO NOT flip
-      if (e.target.closest('button') || e.target.closest('.no-flip') || e.target.closest('a')) {
-        return;
-      }
-
-      flipCard();
-    }
-
-    function flipCard() {
-      const cardInner = document.getElementById('cardInner');
-      isFlipped = !isFlipped;
-      if (isFlipped) {
-        cardInner.classList.add('rotate-y-180');
-      } else {
-        cardInner.classList.remove('rotate-y-180');
-      }
-    }
-
-    function resetFlip(callback) {
-      if (isFlipped) {
-        const cardInner = document.getElementById('cardInner');
-        cardInner.classList.remove('rotate-y-180');
-        isFlipped = false;
-        setTimeout(() => { if (callback) callback(); }, 250);
-      } else {
-        if (callback) callback();
-      }
-    }
-
-    function toggleSpeechSpeed(e) {
-      if (e) e.stopPropagation();
-      const speeds = [1.0, 0.8, 1.2];
-      const nextIdx = (speeds.indexOf(speechRate) + 1) % speeds.length;
-      speechRate = speeds[nextIdx];
-      const btn = document.getElementById('speedBtn');
-      if (btn) btn.textContent = `${speechRate.toFixed(1)}x`;
-      if (currentAudioElement) {
-        currentAudioElement.playbackRate = speechRate;
-      }
-      showToast(`语速已切换为：${speechRate.toFixed(1)}x`, "fa-gauge-high");
-    }
-
-    function copyCurrentWord(e) {
-      if (e) e.stopPropagation();
-      const item = filteredVocab[currentIndex];
-      if (!item) return;
-
-      const tempInput = document.createElement('textarea');
-      tempInput.value = item.fr;
-      tempInput.style.position = 'fixed';
-      tempInput.style.opacity = '0';
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      try {
-        document.execCommand('copy');
-        showToast(`已成功复制到剪贴板：${item.fr}`, "fa-copy");
-      } catch (err) {
-        showToast("复制失败，请手动划词复制", "fa-triangle-exclamation");
-      }
-      document.body.removeChild(tempInput);
-    }
-
-    function openExternalDictionary(e) {
-      if (e) e.stopPropagation();
-      const item = filteredVocab[currentIndex];
-      if (!item) return;
-      const cleanWord = encodeURIComponent(item.fr.replace(/^(le|la|l'|les|un|une|des)\s+/i, ''));
-      window.open(`https://www.larousse.fr/dictionnaires/francais/${cleanWord}`, '_blank');
-    }
-
-    function base64ToArrayBuffer(base64) {
-      const binaryString = window.atob(base64);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      return bytes.buffer;
-    }
-
-    function pcmToWav(pcmData, sampleRate = 24000) {
-      const numChannels = 1;
-      const bytesPerSample = 2; // 16-bit
-      const blockAlign = numChannels * bytesPerSample;
-      const byteRate = sampleRate * blockAlign;
-      const dataSize = pcmData.length * bytesPerSample;
-      const buffer = new ArrayBuffer(44 + dataSize);
-      const view = new DataView(buffer);
-
-      function writeString(view, offset, string) {
-        for (let i = 0; i < string.length; i++) {
-          view.setUint8(offset + i, string.charCodeAt(i));
-        }
-      }
-
-      writeString(view, 0, 'RIFF');
-      view.setUint32(4, 36 + dataSize, true);
-      writeString(view, 8, 'WAVE');
-      writeString(view, 12, 'fmt ');
-      view.setUint32(16, 16, true);
-      view.setUint16(20, 1, true); // PCM
-      view.setUint16(22, numChannels, true);
-      view.setUint32(24, sampleRate, true);
-      view.setUint32(28, byteRate, true);
-      view.setUint16(32, blockAlign, true);
-      view.setUint16(34, 16, true);
-      writeString(view, 36, 'data');
-      view.setUint32(40, dataSize, true);
-
-      let offset = 44;
-      for (let i = 0; i < pcmData.length; i++, offset += 2) {
-        view.setInt16(offset, pcmData[i], true);
-      }
-
-      return new Blob([view], { type: 'audio/wav' });
-    }
-
-    async function speakWord(e) {
-      if (e) e.stopPropagation();
-      const currentItem = filteredVocab[currentIndex];
-      if (!currentItem) return;
-
-      const text = currentItem.fr;
-      const speakIcon = document.getElementById('cardSpeakIcon');
-
-      // 1. Check cache first for immediate playback
-      if (ttsAudioCache.has(text)) {
-        playWavBlobUrl(ttsAudioCache.get(text), speakIcon);
-        return;
-      }
-
-      // Show loading spinner
-      if (speakIcon) {
-        speakIcon.className = "fa-solid fa-spinner fa-spin text-xs";
-      }
-
-      // 2. Fetch studio-quality French speech using Gemini 2.5 Flash TTS
-      try {
-        const apiKey = "";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-        const payload = {
-          contents: [{
-            parts: [{ text: `Prononce avec une diction claire, naturelle et parfaitement articulée en français standard de France : ${text}` }]
-          }],
-          generationConfig: {
-            responseModalities: ["AUDIO"],
-            speechConfig: {
-              voiceConfig: {
-                prebuiltVoiceConfig: { voiceName: "Aoede" } // Clear, warm natural voice
-              }
-            }
-          },
-          model: "gemini-2.5-flash-preview-tts"
-        };
-
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-        const part = result?.candidates?.[0]?.content?.parts?.[0];
-        const audioBase64 = part?.inlineData?.data;
-        const mimeType = part?.inlineData?.mimeType || "audio/L16;rate=24000";
-
-        if (audioBase64) {
-          const rateMatch = mimeType.match(/rate=(\d+)/);
-          const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
-          const pcmBuffer = base64ToArrayBuffer(audioBase64);
-          const pcm16 = new Int16Array(pcmBuffer);
-          const wavBlob = pcmToWav(pcm16, sampleRate);
-          const audioUrl = URL.createObjectURL(wavBlob);
-
-          ttsAudioCache.set(text, audioUrl);
-          playWavBlobUrl(audioUrl, speakIcon);
-          return;
-        } else {
-          throw new Error("Missing audio payload");
-        }
-      } catch (err) {
-        // 3. High-quality Browser Speech Fallback with prioritized native French voices
-        speakWithEnhancedBrowserTTS(text, speakIcon);
-      }
-    }
-
-    function playWavBlobUrl(audioUrl, iconElem) {
-      if (currentAudioElement) {
-        currentAudioElement.pause();
-      }
-      currentAudioElement = new Audio(audioUrl);
-      currentAudioElement.playbackRate = speechRate;
-
-      if (iconElem) iconElem.className = "fa-solid fa-volume-high text-amber-300 animate-pulse text-xs";
-
-      currentAudioElement.onended = () => {
-        if (iconElem) iconElem.className = "fa-solid fa-volume-high text-xs";
-      };
-      currentAudioElement.onerror = () => {
-        if (iconElem) iconElem.className = "fa-solid fa-volume-high text-xs";
-      };
-
-      currentAudioElement.play().catch(() => {
-        if (iconElem) iconElem.className = "fa-solid fa-volume-high text-xs";
-      });
-    }
-
-    function speakWithEnhancedBrowserTTS(text, iconElem) {
-      if (!('speechSynthesis' in window)) {
-        if (iconElem) iconElem.className = "fa-solid fa-volume-high text-xs";
-        showToast("您的浏览器暂不支持语音功能", "fa-triangle-exclamation");
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'fr-FR';
-      utterance.rate = speechRate * 0.95;
-
-      // Select best French voice
-      const voices = window.speechSynthesis.getVoices();
-      const frenchVoices = voices.filter(v => v.lang && (v.lang.startsWith('fr') || v.lang.includes('fr_FR') || v.lang.includes('fr-FR')));
-      
-      const prioritizedVoice = frenchVoices.find(v => 
-        v.name.includes('Google') || 
-        v.name.includes('Thomas') || 
-        v.name.includes('Audrey') || 
-        v.name.includes('Amélie') || 
-        v.name.includes('Natural')
-      ) || frenchVoices[0];
-
-      if (prioritizedVoice) {
-        utterance.voice = prioritizedVoice;
-      }
-
-      if (iconElem) iconElem.className = "fa-solid fa-volume-high text-amber-300 animate-pulse text-xs";
-
-      utterance.onend = () => {
-        if (iconElem) iconElem.className = "fa-solid fa-volume-high text-xs";
-      };
-      utterance.onerror = () => {
-        if (iconElem) iconElem.className = "fa-solid fa-volume-high text-xs";
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    function updateCardUI() {
-      if (filteredVocab.length === 0) {
-        document.getElementById('cardFrontText').textContent = "暂无匹配卡片";
-        document.getElementById('cardFrontType').textContent = "";
-        document.getElementById('cardHintPreview').textContent = "请切换筛选条件";
-        document.getElementById('currentCardIndexText').textContent = `0 / 0`;
-        document.getElementById('progressBar').style.width = `0%`;
-        return;
-      }
-
-      if (currentIndex >= filteredVocab.length) currentIndex = 0;
-      if (currentIndex < 0) currentIndex = filteredVocab.length - 1;
-
-      const item = filteredVocab[currentIndex];
-
-      // Front
-      document.getElementById('cardFrontText').textContent = item.fr;
-      document.getElementById('cardFrontType').textContent = `[${item.type}]`;
-      document.getElementById('cardHintPreview').textContent = `💡 ${item.quote || item.zh}`;
-
-      // Back
-      document.getElementById('cardBackMeaning').textContent = item.zh;
-      document.getElementById('cardBackQuote').innerHTML = item.quote || "无听力原文引用";
-      document.getElementById('cardBackExpansion').textContent = item.expansion || "DALF C1 进阶表达";
-      document.getElementById('backTypeBadge').textContent = item.type;
-
-      // Category badge
-      const catMap = {
-        'idiom': '习语与生动表达',
-        'logic': '论证连接与修辞',
-        'noun': '核心名词与专词',
-        'verb': '趋势与变化动词'
-      };
-      document.getElementById('cardCategoryBadge').textContent = catMap[item.category] || '核心词汇';
-
-      // Counter and progress
-      document.getElementById('currentCardIndexText').textContent = `第 ${currentIndex + 1} / ${filteredVocab.length} 张`;
-      const progressPercent = ((currentIndex + 1) / filteredVocab.length) * 100;
-      document.getElementById('progressBar').style.width = `${progressPercent}%`;
-
-      // Mastered status UI
-      const markBtn = document.getElementById('markMasterBtn');
-      const icon = document.getElementById('masteredIcon');
-      const label = document.getElementById('masteredLabel');
-
-      if (item.mastered) {
-        markBtn.className = "py-3 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition flex items-center space-x-2";
-        icon.className = "fa-solid fa-circle-check text-base";
-        label.textContent = "已掌握";
-      } else {
-        markBtn.className = "py-3 px-5 rounded-2xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-700 text-sm font-semibold transition flex items-center space-x-2";
-        icon.className = "fa-regular fa-circle-check text-base";
-        label.textContent = "标为已掌握";
-      }
-
-      updateStatsSummary();
-    }
-
-    function nextCard() {
-      resetFlip(() => {
-        currentIndex = (currentIndex + 1) % filteredVocab.length;
-        updateCardUI();
-      });
-    }
-
-    function prevCard() {
-      resetFlip(() => {
-        currentIndex = (currentIndex - 1 + filteredVocab.length) % filteredVocab.length;
-        updateCardUI();
-      });
-    }
-
-    function toggleMastered() {
-      const item = filteredVocab[currentIndex];
-      if (!item) return;
-      item.mastered = !item.mastered;
-      saveVocabToStorage();
-      updateCardUI();
-      renderTableView();
-      showToast(item.mastered ? `已标为掌握：${item.fr}` : `已取消掌握：${item.fr}`, item.mastered ? "fa-circle-check" : "fa-clock-rotate-left");
-    }
-
-    function shuffleCards() {
-      resetFlip(() => {
-        for (let i = filteredVocab.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [filteredVocab[i], filteredVocab[j]] = [filteredVocab[j], filteredVocab[i]];
-        }
-        currentIndex = 0;
-        updateCardUI();
-        showToast("已随机打乱当前闪卡顺序！", "fa-shuffle");
-      });
-    }
-
-    function setFilter(cat) {
-      currentFilter = cat;
-
-      // Update button classes
-      const cats = ['all', 'idiom', 'logic', 'noun', 'verb'];
-      cats.forEach(c => {
-        const btn = document.getElementById(`filter-${c}`);
-        if (c === cat) {
-          btn.className = "px-3 py-1.5 rounded-full bg-indigo-600 text-white font-medium shadow-xs whitespace-nowrap";
-        } else {
-          btn.className = "px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium whitespace-nowrap";
-        }
-      });
-
-      if (cat === 'all') {
-        filteredVocab = [...vocabulary];
-      } else {
-        filteredVocab = vocabulary.filter(item => item.category === cat);
-      }
-
-      currentIndex = 0;
-      resetFlip(() => {
-        updateCardUI();
-        renderTableView();
-      });
-    }
-
-    function updateStatsSummary() {
-      const mastered = vocabulary.filter(v => v.mastered).length;
-      const review = vocabulary.length - mastered;
-
-      document.getElementById('masteredCount').textContent = mastered;
-      document.getElementById('reviewCount').textContent = review;
-
-      document.getElementById('count-all').textContent = vocabulary.length;
-      document.getElementById('count-idiom').textContent = vocabulary.filter(v => v.category === 'idiom').length;
-      document.getElementById('count-logic').textContent = vocabulary.filter(v => v.category === 'logic').length;
-      document.getElementById('count-noun').textContent = vocabulary.filter(v => v.category === 'noun').length;
-      document.getElementById('count-verb').textContent = vocabulary.filter(v => v.category === 'verb').length;
-    }
-
-    function resetProgress() {
-      vocabulary.forEach(v => v.mastered = false);
-      saveVocabToStorage();
-      updateCardUI();
-      renderTableView();
-      showToast("所有词汇的学习进度已重置", "fa-arrow-rotate-left");
-    }
-
-    function renderTableView() {
-      const tbody = document.getElementById('tableBody');
-      const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-
-      let items = (currentFilter === 'all') ? vocabulary : vocabulary.filter(v => v.category === currentFilter);
-      if (search) {
-        items = items.filter(v => 
-          v.fr.toLowerCase().includes(search) ||
-          v.zh.toLowerCase().includes(search) ||
-          (v.quote && v.quote.toLowerCase().includes(search)) ||
-          (v.expansion && v.expansion.toLowerCase().includes(search))
-        );
-      }
-
-      if (items.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400">没有检索到符合条件的词汇</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = items.map(item => `
-        <tr class="hover:bg-slate-50/80 transition">
-          <td class="py-3 px-4 text-center">
-            <button onclick="toggleTableMastered(${item.id})" class="text-base transition ${item.mastered ? 'text-emerald-600' : 'text-slate-300 hover:text-emerald-500'}">
-              <i class="fa-solid ${item.mastered ? 'fa-circle-check' : 'fa-circle'}"></i>
-            </button>
-          </td>
-          <td class="py-3 px-4 font-bold text-slate-900">${item.fr}</td>
-          <td class="py-3 px-4 text-slate-500 font-mono text-[11px]">${item.type}</td>
-          <td class="py-3 px-4 font-medium text-indigo-950">${item.zh}</td>
-          <td class="py-3 px-4 text-slate-600 italic max-w-xs truncate" title="${item.quote}">${item.quote}</td>
-          <td class="py-3 px-4 text-slate-500 max-w-xs truncate" title="${item.expansion}">${item.expansion}</td>
-          <td class="py-3 px-3 text-center">
-            <button onclick="speakDirect('${item.fr.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-indigo-600 transition p-1">
-              <i class="fa-solid fa-volume-high"></i>
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function speakDirect(word) {
-      const currentItem = filteredVocab.find(v => v.fr === word) || { fr: word };
-      const tempIndex = filteredVocab.findIndex(v => v.fr === word);
-      if (tempIndex !== -1) {
-        currentIndex = tempIndex;
-      }
-      speakWord();
-    }
-
-    function toggleTableMastered(id) {
-      const target = vocabulary.find(v => v.id === id);
-      if (target) {
-        target.mastered = !target.mastered;
-        saveVocabToStorage();
-        updateCardUI();
-        renderTableView();
-      }
-    }
-
-    function switchView(view) {
-      const cardsView = document.getElementById('cardsView');
-      const listView = document.getElementById('listView');
-      const tabCards = document.getElementById('tabCards');
-      const tabList = document.getElementById('tabList');
-
-      if (view === 'cards') {
-        cardsView.classList.remove('hidden');
-        listView.classList.add('hidden');
-        tabCards.className = "px-3 py-1.5 rounded-lg bg-white shadow-xs text-indigo-600 transition";
-        tabList.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
-      } else {
-        cardsView.classList.add('hidden');
-        listView.classList.remove('hidden');
-        listView.classList.add('flex');
-        tabList.className = "px-3 py-1.5 rounded-lg bg-white shadow-xs text-indigo-600 transition";
-        tabCards.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
-        renderTableView();
-      }
-    }
-
-    function openAddModal() {
-      document.getElementById('addModal').classList.remove('hidden');
-      document.getElementById('newWordFr').focus();
-    }
-
-    function closeAddModal() {
-      document.getElementById('addModal').classList.add('hidden');
-      document.getElementById('newWordForm').reset();
-    }
-
-    function handleAddNewWord(e) {
-      e.preventDefault();
-      const fr = document.getElementById('newWordFr').value.trim();
-      const type = document.getElementById('newWordType').value.trim() || 'exp.';
-      const category = document.getElementById('newWordCat').value;
-      const zh = document.getElementById('newWordZh').value.trim();
-      const quote = document.getElementById('newWordQuote').value.trim() || `Exemple avec ${fr}`;
-      const expansion = document.getElementById('newWordExpansion').value.trim() || '无';
-
-      if (!fr || !zh) return;
-
-      const newCard = {
-        id: Date.now(),
-        fr,
-        type,
-        category,
-        zh,
-        quote: quote.startsWith('«') ? quote : `« ${quote} »`,
-        expansion,
-        mastered: false,
-        custom: true
-      };
-
-      vocabulary.unshift(newCard);
-      saveVocabToStorage();
-      setFilter(currentFilter);
-      closeAddModal();
-      showToast(`成功新增词汇：${fr}`, "fa-circle-plus");
-    }
-
-    function saveVocabToStorage() {
-      localStorage.setItem('dalf_c1_vocab', JSON.stringify(vocabulary));
-    }
-
-    function showToast(msg, iconClass = "fa-check") {
-      const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMsg');
-      const toastIcon = document.getElementById('toastIcon');
-
-      toastMsg.textContent = msg;
-      toastIcon.className = `fa-solid ${iconClass} text-emerald-400`;
-      toast.classList.remove('opacity-0', 'pointer-events-none');
-      toast.classList.add('opacity-100');
-
-      setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0', 'pointer-events-none');
-      }, 2400);
-    }
-
-    window.addEventListener('keydown', (e) => {
-      // Avoid hotkeys when typing in modal or search
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-
-      if (e.code === 'Space') {
-        e.preventDefault();
-        flipCard();
-      } else if (e.code === 'ArrowRight') {
-        e.preventDefault();
-        nextCard();
-      } else if (e.code === 'ArrowLeft') {
-        e.preventDefault();
-        prevCard();
-      } else if (e.key === 'm' || e.key === 'M') {
-        toggleMastered();
-      }
-    });
-
-    // Initialize on load
-    window.onload = function() {
-      setFilter('all');
-      updateStatsSummary();
-    };
-  </script>
+  <label>中文释义 *</label><input id="fZh" required>
+  <label>原句</label><input id="fQuote" spellcheck="false">
+  <label>拓展（同义替换、用法）</label><input id="fExp">
+  <div class="acts"><button type="button" class="tool" id="addCancel">取消</button><button class="btn-main">加入</button></div>
+</form></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const initialVocabulary = [
+ {
+  "id": 1,
+  "fr": "avoir la cote",
+  "type": "loc. verb.",
+  "category": "idiom",
+  "zh": "非常受青睐、走红、吃香",
+  "quote": "« ...avec les épices qui ont la cote en Suisse. »",
+  "expansion": "同义替换：être très populaire / être très prisé(e)",
+  "mastered": false
+ },
+ {
+  "id": 2,
+  "fr": "caracoler en tête",
+  "type": "loc. verb.",
+  "category": "idiom",
+  "zh": "遥遥领先、高居榜首",
+  "quote": "« ...gingembre, piment et poivre caracolent en tête... »",
+  "expansion": "赛马引申：指在统计数据或经济排名中处于第一位",
+  "mastered": false
+ },
+ {
+  "id": 3,
+  "fr": "prendre l'ascenseur",
+  "type": "loc. verb.",
+  "category": "idiom",
+  "zh": "（价格等）急剧攀升、飙升",
+  "quote": "« Oui, le prix des épices vendues au kilo prennent l'ascenseur. »",
+  "expansion": "生动形象表达。同义：grimper en flèche, flamber",
+  "mastered": false
+ },
+ {
+  "id": 4,
+  "fr": "faire un malheur",
+  "type": "loc. verb.",
+  "category": "idiom",
+  "zh": "大获成功、大受好评、极为畅销",
+  "quote": "« Oui, le gingembre qui fait un malheur en Suisse... »",
+  "expansion": "反意修辞：非“灾祸”，而是 remporter un vif succès",
+  "mastered": false
+ },
+ {
+  "id": 5,
+  "fr": "donner un coup de fouet",
+  "type": "loc. verb.",
+  "category": "idiom",
+  "zh": "令人振奋、提神醒脑、注入活力",
+  "quote": "« ...un univers de concentré de gingembre qui donne un coup de fouet. »",
+  "expansion": "引申：带来立竿见影的刺激作用（stimuler immédiatement）",
+  "mastered": false
+ },
+ {
+  "id": 6,
+  "fr": "la facture est salée",
+  "type": "loc. verb.",
+  "category": "idiom",
+  "zh": "账单沉重、开销昂贵",
+  "quote": "« Côté prix, la facture des épices est-elle salée...? »",
+  "expansion": "双关修辞：salé(e) 原意指咸味调料，此处指价格极高",
+  "mastered": false
+ },
+ {
+  "id": 7,
+  "fr": "éplucher",
+  "type": "v. tr.",
+  "category": "idiom",
+  "zh": "削皮；深入剖析、严密审查",
+  "quote": "« Bastien Von Wyss, il a creusé le sujet et épluché le gingembre. »",
+  "expansion": "双关：给生姜削皮 vs 严密核查（scruter / examiner de près）",
+  "mastered": false
+ },
+ {
+  "id": 8,
+  "fr": "légende urbaine",
+  "type": "loc. nom. f.",
+  "category": "idiom",
+  "zh": "都市传说、毫无根据的民间传闻",
+  "quote": "« Ben alors, vérité ou légende urbaine ? »",
+  "expansion": "常与 mythe, rumeur infondée 互换，反义为 fait avéré",
+  "mastered": false
+ },
+ {
+  "id": 9,
+  "fr": "en l'occurrence",
+  "type": "loc. adv.",
+  "category": "logic",
+  "zh": "在这种情况下、具体来说",
+  "quote": "« ...le poivre est importé en l'occurrence du Cambodge ou du Vietnam... »",
+  "expansion": "议论文高阶连接词，明确聚焦于具体讨论的对象",
+  "mastered": false
+ },
+ {
+  "id": 10,
+  "fr": "prendre en compte",
+  "type": "loc. verb.",
+  "category": "logic",
+  "zh": "考虑到、将……纳入考量",
+  "quote": "« ...les douanes prennent toujours en compte le lieu de la dernière transformation... »",
+  "expansion": "C1 议论高频：同义于 prendre en considération",
+  "mastered": false
+ },
+ {
+  "id": 11,
+  "fr": "en provenance de",
+  "type": "loc. prép.",
+  "category": "logic",
+  "zh": "来自、源自、始发于",
+  "quote": "« ...des vagues successives de migration en provenance de Méditerranée... »",
+  "expansion": "接产地或始发地，相当于 originaire de / venant de",
+  "mastered": false
+ },
+ {
+  "id": 12,
+  "fr": "fulgurant, -e",
+  "type": "adj.",
+  "category": "logic",
+  "zh": "极迅猛的、闪电般的",
+  "quote": "« ...comment expliquer le succès fulgurant des épices sur les tables suisses ? »",
+  "expansion": "固定高阶搭配：ascension fulgurante / hausse fulgurante",
+  "mastered": false
+ },
+ {
+  "id": 13,
+  "fr": "corsé, -e",
+  "type": "adj.",
+  "category": "logic",
+  "zh": "浓烈的；辛辣刺激的、棘手的",
+  "quote": "« Une info corsée qui va pimenter cette émission... »",
+  "expansion": "既指食物浓郁，又指有内涵、有挑战性（piquante / relevée）",
+  "mastered": false
+ },
+ {
+  "id": 14,
+  "fr": "métissé, -e",
+  "type": "adj.",
+  "category": "logic",
+  "zh": "混血的、文化交融的、多元融合的",
+  "quote": "« Oui, la société suisse est de plus en plus métissée. »",
+  "expansion": "名词形式为 le métissage culturel（文化融汇）",
+  "mastered": false
+ },
+ {
+  "id": 15,
+  "fr": "assaisonner",
+  "type": "v. tr.",
+  "category": "logic",
+  "zh": "调味；使言论更有风趣",
+  "quote": "« ...assaisonner un plat... »",
+  "expansion": "派生词：l'assaisonnement (m.)；比喻用法为 pimenter",
+  "mastered": false
+ },
+ {
+  "id": 16,
+  "fr": "le gingembre",
+  "type": "n. m.",
+  "category": "noun",
+  "zh": "生姜",
+  "quote": "« Le gingembre qui représente un tiers des importations totales... »",
+  "expansion": "注意阴阳性为阳性 (un gingembre)",
+  "mastered": false
+ },
+ {
+  "id": 17,
+  "fr": "le piment",
+  "type": "n. m.",
+  "category": "noun",
+  "zh": "辣椒",
+  "quote": "« Ensuite, il y a le piment. 26 % des importations d'épices. »",
+  "expansion": "衍生动词：pimenter（使更有刺激性/生动）",
+  "mastered": false
+ },
+ {
+  "id": 18,
+  "fr": "le poivre",
+  "type": "n. m.",
+  "category": "noun",
+  "zh": "胡椒",
+  "quote": "« Le poivre arrive en troisième position. »",
+  "expansion": "阳性名词，复合词如 le poivre de Cayenne",
+  "mastered": false
+ },
+ {
+  "id": 19,
+  "fr": "le vinaigre",
+  "type": "n. m.",
+  "category": "noun",
+  "zh": "醋",
+  "quote": "« Trempées dans du vinaigre. »",
+  "expansion": "词源构成：vin (酒) + aigre (酸的)",
+  "mastered": false
+ },
+ {
+  "id": 20,
+  "fr": "l'importation",
+  "type": "n. f.",
+  "category": "noun",
+  "zh": "进口、输入",
+  "quote": "« Les importations ont augmenté de 55 % ces dix dernières années... »",
+  "expansion": "反义词：l'exportation (f.) 出口",
+  "mastered": false
+ },
+ {
+  "id": 21,
+  "fr": "la douane",
+  "type": "n. f.",
+  "category": "noun",
+  "zh": "海关；关税 (droits de douane)",
+  "quote": "« ...l'Office Fédéral de la Douane et de la sécurité des Frontières. »",
+  "expansion": "瑞士机构缩写：OFDF",
+  "mastered": false
+ },
+ {
+  "id": 22,
+  "fr": "l'allusion",
+  "type": "n. f.",
+  "category": "noun",
+  "zh": "暗指、暗示、影射",
+  "quote": "« ...l'allusion à la fameuse vertu aphrodisiaque du gingembre. »",
+  "expansion": "固定句型搭配：faire allusion à qch (暗示某事)",
+  "mastered": false
+ },
+ {
+  "id": 23,
+  "fr": "la chronique",
+  "type": "n. f.",
+  "category": "noun",
+  "zh": "时评短评、电台专栏",
+  "quote": "« Chronique piquante signée Louis, 11 ans et Xavier Bloc'h... »",
+  "expansion": "专栏记者/评述员为 chroniqueur / chroniqueuse",
+  "mastered": false
+ },
+ {
+  "id": 24,
+  "fr": "matinal, -e",
+  "type": "adj.",
+  "category": "noun",
+  "zh": "清晨的、早晨的；早起的",
+  "quote": "« ...c'est le fameux shot de gingembre matinal. »",
+  "expansion": "复数阳性形式为 matinaux",
+  "mastered": false
+ },
+ {
+  "id": 25,
+  "fr": "trempé, -e",
+  "type": "adj. / p. p.",
+  "category": "noun",
+  "zh": "浸泡过的；湿透的",
+  "quote": "« Trempées dans du vinaigre. »",
+  "expansion": "动词原形 tremper dans（浸入某物中）",
+  "mastered": false
+ },
+ {
+  "id": 26,
+  "fr": "s'affaiblir",
+  "type": "v. pron.",
+  "category": "verb",
+  "zh": "变弱、减弱、衰退（体力、声音、影响力、货币、需求等）",
+  "quote": "« La demande intérieure <strong>s'affaiblit<\/strong> depuis plusieurs mois. »<br>« Sa voix <strong>s'affaiblissait<\/strong> peu à peu. »",
+  "expansion": "释义：devenir plus faible\n近义：faiblir, diminuer, décliner, décroître, baisser, s'étioler, dépérir\n反义：se renforcer, s'intensifier, s'amplifier, se fortifier, se rétablir\n名词：l'affaiblissement (m.)\n搭配：l'euro s'affaiblit face au dollar ; la croissance / l'influence / le lien social s'affaiblit",
+  "mastered": false
+ },
+ {
+  "id": 27,
+  "fr": "se renforcer",
+  "type": "v. pron.",
+  "category": "verb",
+  "zh": "变强、得到加强、巩固；（趋势、信念）更加明显",
+  "quote": "« Les liens entre les deux pays <strong>se sont renforcés<\/strong>. »<br>« Cette tendance <strong>se renforce<\/strong> d'année en année. »",
+  "expansion": "释义：devenir plus fort\n及物 renforcer qqch：① 使更坚固 ② 增强（队伍、力量）③ 使更强烈\n近义：s'accentuer, s'accuser, se consolider, s'intensifier, se raffermir\n反义：s'affaiblir, s'effriter\n名词：le renforcement\n搭配：renforcer la sécurité / les contrôles / la coopération ; se renforcer mutuellement（相互促进）",
+  "mastered": false
+ },
+ {
+  "id": 28,
+  "fr": "s'accentuer",
+  "type": "v. pron.",
+  "category": "verb",
+  "zh": "加剧、变得更明显、更突出（趋势、差异、压力等）",
+  "quote": "« La pression sur les prix <strong>s'accentue<\/strong>. »<br>« Le phénomène <strong>s'est accentué<\/strong> depuis la crise sanitaire. »",
+  "expansion": "释义：devenir plus intense, plus marqué\n近义：s'intensifier, s'accroître, s'aggraver, s'accuser, se renforcer, augmenter\n反义：s'atténuer, s'effacer, s'estomper\n名词：l'accentuation (f.)\n及物：accentuer = 强调、突出（accentuer les contrastes）；本义：加重音符号、重读\n辨析：s'aggraver 专指变坏；s'accentuer 只说程度加深，较中性",
+  "mastered": false
+ },
+ {
+  "id": 29,
+  "fr": "se creuser",
+  "type": "v. pron.",
+  "category": "verb",
+  "zh": "（差距、赤字、分歧）拉大、加深；（脸颊）凹陷；〔口〕绞尽脑汁",
+  "quote": "« Les inégalités entre riches et pauvres <strong>se creusent<\/strong>. »<br>« Le déficit public <strong>s'est creusé<\/strong> de deux milliards. »",
+  "expansion": "释义：① augmenter, s'agrandir, en parlant d'un écart ② se marquer de creux ③ 〔口〕réfléchir beaucoup\n近义：s'élargir, s'accroître, s'aggraver\n反义：se réduire, se resserrer, se combler\n搭配：l'écart / le fossé / le déficit se creuse ; creuser l'écart（拉开差距）\n口语：se creuser la tête / la cervelle（绞尽脑汁）\n本义：creuser un trou（挖洞）；引申 creuser une question（深入研究）",
+  "mastered": false
+ },
+ {
+  "id": 30,
+  "fr": "s'estomper",
+  "type": "v. pron.",
+  "category": "verb",
+  "zh": "（轮廓）变模糊；（记忆、痛苦、差异）淡化、渐渐消退",
+  "quote": "« Avec le temps, les souvenirs <strong>s'estompent<\/strong>. »<br>« La frontière entre vie privée et vie professionnelle <strong>s'estompe<\/strong>. »",
+  "expansion": "释义：① devenir flou, moins net ② devenir moins fort\n近义：① s'effacer, se voiler, disparaître ② s'atténuer, diminuer, s'affaiblir\n反义：s'accentuer, s'intensifier, se préciser\n及物：estomper un dessin（晕染画面）；estomper les différences（淡化差异）\n词源：l'estompe (f.) 擦笔（素描工具）\n辨析：强调渐进式淡去，多用于抽象事物",
+  "mastered": false
+ },
+ {
+  "id": 31,
+  "fr": "se dégrader",
+  "type": "v. pron.",
+  "category": "verb",
+  "zh": "逐渐恶化、变质、损坏；（局势）变坏；（人）堕落、失去尊严",
+  "quote": "« La situation économique <strong>se dégrade<\/strong>. »<br>« Les conditions de travail <strong>se sont dégradées<\/strong>. »",
+  "expansion": "释义：① se détériorer progressivement ② évoluer défavorablement ③ perdre de sa dignité\n近义：① s'abîmer, s'altérer, se détériorer ② empirer, se gâter, dégénérer, s'envenimer ③ s'avilir, s'abaisser\n反义：s'améliorer, se bonifier\n名词：la dégradation（la dégradation de l'environnement 环境退化）\n形容词：dégradé(e)（un quartier dégradé 破败街区）；n. m. un dégradé 色彩渐变\n注意：dégrader un officier 本义为「革除军衔」",
+  "mastered": false
+ }
+];
+
+/* ---------- data ---------- */
+const CATS = [
+  ['expr', '习语与表达'], ['logic', '论证与连接'], ['verb', '动词'], ['noun', '名词'], ['adj', '形容词与副词'],
+];
+const STORE_KEY = 'dalf_c1_vocab', PREF_KEY = 'dalf_c1_flash_prefs';
+const $ = id => document.getElementById(id);
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// quotes may carry <strong> around the word; nothing else is allowed through
+const safeQuote = q => esc(q).replace(/&lt;(\/?)strong&gt;/g, '<$1strong>').replace(/&lt;br\s*\/?&gt;/g, '<br>');
+const cardKey = c => String(c.fr || '').toLowerCase().normalize('NFC').replace(/[’']/g, "'").replace(/\s+/g, ' ').trim();
+
+// A card is "custom" when it was added in the browser (by hand or from the exam page): its id is a timestamp.
+const isCustom = c => !!(c.custom || c.addedAt || Number(c.id) >= 1e12);
+// Old cards used idiom / logic / noun: sort those by part of speech into the five categories.
+function categoryOf(c) {
+  if (CATS.some(k => k[0] === c.category) && (isCustom(c) || c.category === 'verb')) return c.category;
+  const t = String(c.type || '').toLowerCase();
+  if (/^v\./.test(t)) return 'verb';
+  if (/^adj|^adv|p\. ?p\./.test(t)) return 'adj';
+  if (/^n\./.test(t)) return 'noun';
+  if (/loc\. ?(adv|prép|conj)|^conj|^prép/.test(t)) return 'logic';
+  return c.category === 'logic' ? 'logic' : 'expr';
+}
+// Add cards that are not in the set yet (import, exam page). Existing cards are never overwritten.
+function mergeCards(base, extra) {
+  const out = base.map(c => ({ ...c })), seen = new Set(out.map(cardKey)), ids = new Set(out.map(c => String(c.id)));
+  let added = 0;
+  for (const c of extra || []) {
+    if (!c || !c.fr || seen.has(cardKey(c))) continue;
+    const card = { mastered: false, ...c, custom: true };
+    if (card.id == null || ids.has(String(card.id)) || Number(card.id) < 1e12) card.id = Date.now() + Math.floor(Math.random() * 1e6);
+    out.push(card); seen.add(cardKey(card)); ids.add(String(card.id)); added++;
+  }
+  out.forEach(c => { c.category = categoryOf(c); });
+  return { cards: out, added };
+}
+// The file is the reference for the built-in cards; the browser only keeps "mastered" and the custom cards.
+function loadVocab() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (e) {}
+  saved = Array.isArray(saved) ? saved : [];
+  const mastered = new Map(saved.map(v => [String(v.id), !!v.mastered]));
+  const builtin = initialVocabulary.map(v => ({ ...v, mastered: mastered.has(String(v.id)) ? mastered.get(String(v.id)) : !!v.mastered }));
+  const taken = new Set(builtin.map(cardKey));
+  const custom = saved.filter(v => isCustom(v) && v.fr && !taken.has(cardKey(v))).map(v => ({ ...v, custom: true }));
+  const all = [...custom, ...builtin];
+  all.forEach(c => { c.category = categoryOf(c); });
+  return all;
+}
+const save = () => { try { localStorage.setItem(STORE_KEY, JSON.stringify(vocabulary)); } catch (e) {} };
+
+let vocabulary = loadVocab();
+let prefs = { theme: '', onlyTodo: false, rate: 1 };
+try { Object.assign(prefs, JSON.parse(localStorage.getItem(PREF_KEY) || '{}')); } catch (e) {}
+const savePrefs = () => { try { localStorage.setItem(PREF_KEY, JSON.stringify(prefs)); } catch (e) {} };
+let filter = 'all', deck = [], index = 0, flipped = false, view = 'cards';
+
+/* ---------- helpers ---------- */
+let toastT = 0;
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('open'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('open'), 2400); }
+function applyTheme() { if (prefs.theme) document.documentElement.dataset.theme = prefs.theme; else delete document.documentElement.dataset.theme; }
+const inFilter = c => (filter === 'all' || c.category === filter) && !(prefs.onlyTodo && c.mastered);
+
+/* ---------- speech (browser voices) ---------- */
+function speak(text) {
+  if (!('speechSynthesis' in window)) { toast('这个浏览器不支持朗读'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(String(text).replace(/,\s*-\w+$/, '').replace(/<[^>]+>/g, ''));
+  const voices = speechSynthesis.getVoices().filter(v => /^fr/i.test(v.lang));
+  u.voice = voices.find(v => /Google|Amélie|Thomas|Audrey|Premium|Enhanced/i.test(v.name) && /fr[-_]FR/i.test(v.lang)) || voices.find(v => /fr[-_]FR/i.test(v.lang)) || voices[0] || null;
+  u.lang = 'fr-FR'; u.rate = prefs.rate;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- rendering ---------- */
+function renderPills() {
+  const n = c => vocabulary.filter(v => c === 'all' || v.category === c).length;
+  $('pills').innerHTML = [['all', '全部'], ...CATS].map(([id, label]) => `<button data-cat="${id}" class="${filter === id ? 'on' : ''}">${label} ${n(id)}</button>`).join('');
+  const m = vocabulary.filter(v => v.mastered).length;
+  $('nMastered').textContent = m; $('nReview').textContent = vocabulary.length - m;
+  $('btnOnlyTodo').classList.toggle('on', prefs.onlyTodo);
+}
+function rebuildDeck(keepId) {
+  if (filter !== 'all' && !vocabulary.some(v => v.category === filter)) filter = 'all';
+  deck = vocabulary.filter(inFilter);
+  const k = keepId == null ? -1 : deck.findIndex(c => String(c.id) === String(keepId));
+  index = k >= 0 ? k : Math.min(index, Math.max(0, deck.length - 1));
+}
+function renderCard() {
+  const c = deck[index];
+  $('deck').hidden = !c; $('deckEmpty').hidden = !!c;
+  if (!c) { $('deckEmpty').textContent = prefs.onlyTodo ? '这个筛选下的卡片都已掌握 🎉' : '这个筛选下没有卡片。'; return; }
+  $('cardInner').classList.toggle('flipped', flipped);
+  $('pos').textContent = `第 ${index + 1} / ${deck.length} 张`;
+  $('catBadge').textContent = (CATS.find(k => k[0] === c.category) || [, '词汇'])[1];
+  $('progress').style.width = ((index + 1) / deck.length * 100) + '%';
+  $('word').textContent = c.fr; $('type').textContent = c.type ? `[${c.type}]` : '';
+  $('hint').textContent = String(c.quote || '').split(/<br\s*\/?>/)[0].replace(/<[^>]+>/g, '');
+  $('zh').textContent = c.zh || ''; $('typeBack').textContent = c.type || '';
+  $('quote').innerHTML = safeQuote(c.quote || '（没有原句）');
+  $('source').textContent = c.source ? ' · ' + c.source : '';
+  $('expansion').textContent = c.expansion && c.expansion !== '无' ? c.expansion : '';
+  const b = $('btnMaster'); b.classList.toggle('done', !!c.mastered); b.textContent = c.mastered ? '✓ 已掌握' : '标为已掌握';
+  $('btnSpeed').textContent = prefs.rate.toFixed(1) + '×';
+}
+function renderList() {
+  const q = $('search').value.toLowerCase().trim();
+  const items = vocabulary.filter(inFilter).filter(c => !q || [c.fr, c.zh, c.quote, c.expansion].some(x => String(x || '').toLowerCase().includes(q)));
+  $('rows').innerHTML = items.length ? items.map(c => `<div class="row" data-id="${esc(c.id)}">
+      <button class="chk ${c.mastered ? 'done' : ''}" data-act="master" title="${c.mastered ? '取消掌握' : '标为已掌握'}">●</button>
+      <div><span class="fr">${esc(c.fr)}</span><span class="ty">${esc(c.type || '')} · ${esc((CATS.find(k => k[0] === c.category) || [, ''])[1])}</span>
+        <div class="zhs">${esc(c.zh || '')}</div>
+        ${c.quote ? `<div class="q">${safeQuote(c.quote)}${c.source ? ` <span style="font-style:normal;color:var(--ink3);font-size:12px">— ${esc(c.source)}</span>` : ''}</div>` : ''}
+        ${c.expansion && c.expansion !== '无' ? `<div class="ex">${esc(c.expansion)}</div>` : ''}</div>
+      <div class="acts"><button data-act="speak" title="朗读">🔊</button><button data-act="open" title="在闪卡里打开">↗</button><button class="del" data-act="del" title="删除">✕</button></div>
+    </div>`).join('') : `<p class="empty">没有符合条件的卡片</p>`;
+}
+function renderAll(keepId) { rebuildDeck(keepId); renderPills(); renderCard(); if (view === 'list') renderList(); }
+function setView(v) {
+  view = v; $('viewCards').hidden = v !== 'cards'; $('viewList').hidden = v !== 'list';
+  $('tabCards').classList.toggle('on', v === 'cards'); $('tabList').classList.toggle('on', v === 'list');
+  if (v === 'list') renderList();
+}
+
+/* ---------- actions ---------- */
+const current = () => deck[index];
+function go(d) { if (!deck.length) return; index = (index + d + deck.length) % deck.length; flipped = false; renderCard(); }
+function flip() { if (!current()) return; flipped = !flipped; $('cardInner').classList.toggle('flipped', flipped); }
+function toggleMaster(card) {
+  if (!card) return;
+  card.mastered = !card.mastered; save();
+  toast(card.mastered ? `已掌握：${card.fr}` : `取消掌握：${card.fr}`);
+  // with "only not mastered" on, the card leaves the deck: stay at the same position
+  const keep = prefs.onlyTodo && card.mastered ? null : card.id;
+  if (keep == null) flipped = false;
+  renderAll(keep);
+}
+
+$('card').addEventListener('click', e => {
+  if (e.target.closest('button')) return;
+  if (getSelection().toString().trim()) return;            // selecting text (dictionary lookup) must not flip
+  flip();
+});
+$('btnPrev').onclick = () => go(-1);
+$('btnNext').onclick = () => go(1);
+$('btnMaster').onclick = () => toggleMaster(current());
+$('btnShuffle').onclick = () => { for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; } index = 0; flipped = false; renderCard(); toast('已打乱顺序'); };
+$('btnSpeak').onclick = $('btnSpeak2').onclick = () => current() && speak(current().fr);
+$('btnSpeed').onclick = () => { const s = [1, 0.8, 0.6]; prefs.rate = s[(s.indexOf(prefs.rate) + 1) % s.length]; savePrefs(); renderCard(); };
+$('btnCopy').onclick = async () => { try { await navigator.clipboard.writeText(current().fr); toast('已复制：' + current().fr); } catch (e) { toast('复制失败'); } };
+$('btnDict').onclick = () => { const w = current().fr.replace(/,\s*-\w+$/, '').replace(/^(le |la |les |l'|l’|un |une |des )/i, '').trim(); window.open('https://www.larousse.fr/dictionnaires/francais/' + encodeURIComponent(w), '_blank', 'noopener'); };
+$('pills').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; filter = b.dataset.cat; index = 0; flipped = false; renderAll(); });
+$('btnOnlyTodo').onclick = () => { prefs.onlyTodo = !prefs.onlyTodo; savePrefs(); index = 0; flipped = false; renderAll(); };
+$('btnReset').onclick = () => { if (!confirm('把所有卡片标回"未掌握"？')) return; vocabulary.forEach(v => v.mastered = false); save(); renderAll(); toast('学习进度已重置'); };
+$('tabCards').onclick = () => setView('cards');
+$('tabList').onclick = () => setView('list');
+$('search').oninput = renderList;
+$('btnTheme').onclick = () => { const dark = prefs.theme ? prefs.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; prefs.theme = dark ? 'light' : 'dark'; savePrefs(); applyTheme(); };
+$('rows').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const card = vocabulary.find(v => String(v.id) === b.closest('.row').dataset.id); if (!card) return;
+  if (b.dataset.act === 'speak') speak(card.fr);
+  else if (b.dataset.act === 'master') toggleMaster(card);
+  else if (b.dataset.act === 'open') { prefs.onlyTodo = false; filter = 'all'; flipped = false; renderAll(card.id); setView('cards'); }
+  else if (b.dataset.act === 'del') { if (!confirm(`删除卡片「${card.fr}」？`)) return; vocabulary = vocabulary.filter(v => v !== card); save(); renderAll(); toast('已删除：' + card.fr); }
+});
+
+/* add */
+$('fCat').innerHTML = CATS.map(c => `<option value="${c[0]}">${c[1]}</option>`).join('');
+$('btnAdd').onclick = () => { $('addModal').classList.add('open'); $('fFr').focus(); };
+$('addCancel').onclick = () => $('addModal').classList.remove('open');
+$('addModal').addEventListener('mousedown', e => { if (e.target === $('addModal')) $('addModal').classList.remove('open'); });
+$('addForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const fr = $('fFr').value.trim(), zh = $('fZh').value.trim(); if (!fr || !zh) return;
+  if (vocabulary.some(v => cardKey(v) === cardKey({ fr }))) { toast('这张卡片已经有了：' + fr); return; }
+  const q = $('fQuote').value.trim();
+  const card = { id: Date.now(), fr, type: $('fType').value.trim() || 'exp.', category: $('fCat').value, zh,
+    quote: q ? (q.startsWith('«') ? q : `« ${q} »`) : '', expansion: $('fExp').value.trim() || '无', mastered: false, addedAt: new Date().toISOString(), custom: true };
+  vocabulary.unshift(card); save(); e.target.reset(); $('addModal').classList.remove('open');
+  filter = 'all'; flipped = false; renderAll(card.id); toast('已新增：' + fr);
+});
+
+/* export / import */
+$('btnExport').onclick = () => {
+  const blob = new Blob([JSON.stringify({ app: 'dalf-c1-flashcards', version: 1, exportedAt: new Date().toISOString(), cards: vocabulary }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cards.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000); toast(`已导出 ${vocabulary.length} 张卡片`);
+};
+$('btnImport').onclick = () => $('importFile').click();
+$('importFile').onchange = e => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result), list = Array.isArray(data) ? data : data.cards;
+      if (!Array.isArray(list)) throw new Error('format');
+      const r = mergeCards(vocabulary, list); vocabulary = r.cards; save(); renderAll(current() && current().id);
+      toast(r.added ? `导入完成：新增 ${r.added} 张` : '导入完成：没有新卡片');
+    } catch (err) { toast('导入失败：不是有效的卡片文件'); }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+};
+
+/* cards added from the exam page (same site, another tab) show up at once */
+window.addEventListener('storage', e => {
+  if (e.key !== STORE_KEY) return;
+  const before = vocabulary.length, keep = current() && current().id;
+  vocabulary = loadVocab(); renderAll(keep);
+  if (vocabulary.length > before) toast(`新加入 ${vocabulary.length - before} 张卡片`);
+});
+window.addEventListener('keydown', e => {
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) || view !== 'cards' || $('addModal').classList.contains('open')) return;
+  if (e.code === 'Space') { e.preventDefault(); flip(); }
+  else if (e.code === 'ArrowRight') { e.preventDefault(); go(1); }
+  else if (e.code === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  else if (e.key === 'm' || e.key === 'M') toggleMaster(current());
+});
+
+applyTheme();
+save();            // persist the merged, re-categorised set
+renderAll();
+if ('speechSynthesis' in window) speechSynthesis.getVoices();
+</script>
 </body>
 </html>
