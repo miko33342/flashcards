@@ -298,6 +298,64 @@ header { background: #8dc98d; border-bottom: 3px solid #5a9e5a; box-shadow: var(
   .modal .two { grid-template-columns: 1fr; }
   .nav button { padding: 11px 6px; font-size: 13.5px; }
 }
+
+.hdr-tools { display: contents; }   /* desktop: buttons sit directly in the header row */
+/* ================= phone layout (≤560px): compact header that scrolls away, one-line swipeable filters,
+   card sized to the screen, list actions under each word ================= */
+@media (max-width: 560px) {
+  header { position: static; display: grid; grid-template-columns: 1fr auto; gap: 10px 8px; padding: 10px 16px 12px; }
+  header .h1sub, header .grow { display: none; }
+  header .ribbon { font-size: 14px; justify-self: start; }
+  header .seg2 { justify-self: end; }
+  header .seg2 button { padding: 4px 12px; }
+  .hdr-tools { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: nowrap; justify-content: space-between; }
+  .hdr-tools .tool { flex: 1 1 auto; text-align: center; font-size: 12.5px; padding: 4px 8px; }
+  .hdr-tools .tool.icon-only { flex: 0 0 auto; }
+  .hdr-tools .aci { width: 16px; height: 16px; }
+
+  main { padding: 12px 16px 40px; }
+  .bar { gap: 10px; margin-bottom: 12px; }
+  .bar > .grow { display: none; }
+  .pills { width: calc(100% + 32px); margin: 0 -16px; padding: 2px 16px 4px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .pills::-webkit-scrollbar { display: none; }
+  .pills button { flex: none; white-space: nowrap; padding: 5px 12px; }
+  .stats { width: 100%; flex-wrap: wrap; gap: 8px 12px; font-size: 12.5px; }
+  .stats > span, .stats > button { white-space: nowrap; }
+  #modeSeg { width: 100%; display: flex; }
+  #modeSeg button { flex: 1; white-space: nowrap; padding: 6px 10px; }
+  #btnReset { margin-left: auto; }
+
+  .meta { font-size: 12px; gap: 8px; }
+  .meta > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .progress { height: 10px; margin-bottom: 12px; }
+  .card { height: clamp(320px, calc(100svh - 250px), 430px); }
+  .face { padding: 16px 18px; border-radius: 18px; }
+  .face-top { font-size: 10.5px; }
+  .icons { gap: 5px; }
+  .ic { width: 34px; height: 34px; }
+  .ic .aci { width: 17px; height: 17px; }
+  .face-mid { margin: 8px 0; }
+  .quote { font-size: 15px; padding: 9px 12px; border-radius: 14px; }
+  .expansion { font-size: 13.5px; }
+  .nav { gap: 8px; margin-top: 10px; }
+  .grade { margin-top: 12px; }
+  .nav button { padding: 9px 6px; font-size: 14px; }
+  .grade button small { font-size: 11px; }
+
+  .rows { border-radius: 16px; }
+  .row { grid-template-columns: 26px minmax(0, 1fr); gap: 2px 8px; padding: 12px 12px 8px; }
+  .row .acts { grid-column: 2; justify-content: flex-start; gap: 2px; margin-left: -6px; }
+  .row .fr { font-size: 16px; }
+  .row .ty { display: inline-block; margin-left: 4px; }
+
+  .modal { padding: 36px 24px 24px; max-height: calc(100svh - 32px); }
+  .modal h3 { font-size: 19px; }
+  .toast { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+}
+/* touch screens: no hover lift (it sticks after a tap and makes the card jump) */
+@media (hover: none) {
+  .card:hover, .tool:hover, .ic:hover, .nav button:hover, .btn-main:hover { transform: none; }
+}
 </style>
 </head>
 <body>
@@ -306,12 +364,14 @@ header { background: #8dc98d; border-bottom: 3px solid #5a9e5a; box-shadow: var(
   <h1 class="ribbon"><span class="rb-l"></span><span class="rb-r"></span><span class="rf-l"></span><span class="rf-r"></span><span class="r-size" aria-hidden="true">DALF C1 闪卡</span><span class="r-front">DALF C1 闪卡</span></h1><span class="h1sub">听力 · 阅读 · Dictée 生词与表达</span>
   <span class="grow"></span>
   <span class="seg2"><button id="tabCards" class="on">闪卡</button><button id="tabList">清单</button></span>
+  <span class="hdr-tools">
   <button class="tool" id="btnExport" title="导出全部卡片（含掌握进度）为 cards.json"><i data-ic="Download"></i>导出</button>
   <button class="tool" id="btnImport" title="导入 cards.json 并合并，不覆盖已有卡片"><i data-ic="Upload"></i>导入</button>
   <input type="file" id="importFile" accept="application/json,.json" hidden>
   <button class="tool" id="btnAdd"><i data-ic="Plus"></i>新增</button>
   <button class="tool icon-only" id="btnTheme" title="切换深浅色"><i data-ic="Moon"></i></button>
   <button class="tool icon-only" id="btnTts" title="朗读语音设置"><i data-ic="Settings"></i></button>
+  </span>
 </header>
 
 <main>
