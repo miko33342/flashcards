@@ -352,6 +352,18 @@ header { background: #8dc98d; border-bottom: 3px solid #5a9e5a; box-shadow: var(
   .modal h3 { font-size: 19px; }
   .toast { bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
 }
+/* swipe to grade (touch screens): the card follows the finger; a label shows which grade a release would give */
+.card { position: relative; touch-action: pan-y; }
+.card.dragging { transition: none; }
+.card.flying { transition: transform .24s var(--ease), opacity .24s var(--ease); }
+.card.returning { transition: transform .3s cubic-bezier(.2,1.4,.4,1); }
+.swipe-tag { position: absolute; top: 18px; left: 50%; z-index: 3; transform: translateX(-50%) scale(.9); padding: 6px 16px; border-radius: 50px; border: 2.5px solid currentColor;
+  background: var(--panel); font-weight: 800; font-size: 16px; letter-spacing: .04em; opacity: 0; pointer-events: none; white-space: nowrap; }
+.swipe-tag.g0 { color: var(--bad); left: auto; right: 18px; transform: rotate(8deg); }
+.swipe-tag.g1 { color: #b8892b; }
+.swipe-tag.g2 { color: var(--ok); left: 18px; transform: rotate(-8deg); }
+.swipe-hint { display: none; margin: 10px 0 0; text-align: center; font-size: 12.5px; color: var(--ink3); font-weight: 600; }
+@media (hover: none) and (pointer: coarse) { .swipe-hint { display: block; } }
 /* touch screens: no hover lift (it sticks after a tap and makes the card jump) */
 @media (hover: none) {
   .card:hover, .tool:hover, .ic:hover, .nav button:hover, .btn-main:hover { transform: none; }
@@ -420,7 +432,9 @@ header { background: #8dc98d; border-bottom: 3px solid #5a9e5a; box-shadow: var(
             <div class="face-bot"><span><span class="opt-hide-sm">空格翻转 · 左右方向键切换 · 1 不认识 · 2 模糊 · 3 已掌握</span></span><span class="flip">点击返回正面</span></div>
           </div>
         </div>
+        <div class="swipe-tag" id="swipeTag" aria-hidden="true"></div>
       </div>
+      <p class="swipe-hint">← 左滑 不认识 · ↓ 下滑 模糊 · 右滑 已掌握 →</p>
       <div class="nav grade" id="gradeRow">
         <button class="g0" data-g="0" title="快捷键 1">不认识<small id="gl0"></small></button>
         <button class="g1" data-g="1" title="快捷键 2">模糊<small id="gl1"></small></button>
@@ -6087,11 +6101,73 @@ function grade(g) {
   } else { renderPills(); go(1); }
 }
 
+let swipedAt = 0;
 $('card').addEventListener('click', e => {
+  if (Date.now() - swipedAt < 400) return;                 // the end of a swipe is not a tap
   if (e.target.closest('button')) return;
   if (getSelection().toString().trim()) return;            // selecting text (dictionary lookup) must not flip
   flip();
 });
+
+/* swipe to grade (touch): right = 已掌握, left = 不认识, down = 模糊. The card follows the finger;
+   past the threshold (or on a quick flick) it flies off and the grade is recorded, otherwise it springs back.
+   Swiping up, and scrolling a long back face, stay native scrolling. */
+(() => {
+  const card = $('card'), tag = $('swipeTag'), LABEL = ['不认识', '模糊', '已掌握'];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let s = null;                                            // { x, y, t, axis, dx, dy, g }
+  const scroller = el => { const m = el.closest('.face-mid'); return m && m.scrollHeight > m.clientHeight + 2 ? m : null; };
+  const pick = (dx, dy) => s.axis === 'x' ? (dx > 0 ? 2 : 0) : (dy > 0 ? 1 : -1);
+  const far = (dx, dy) => s.axis === 'x' ? Math.abs(dx) > Math.max(90, card.offsetWidth * .28) : dy > 110;
+  function paint(dx, dy) {
+    const x = s.axis === 'x' ? dx : dx * .25, y = s.axis === 'y' ? Math.max(0, dy) : dy * .15;
+    card.style.transform = `translate(${x}px, ${y}px) rotate(${s.axis === 'x' ? dx / 18 : 0}deg)`;
+    const g = pick(dx, dy), d = s.axis === 'x' ? Math.abs(dx) : Math.max(0, dy);
+    tag.className = 'swipe-tag' + (g >= 0 ? ' g' + g : ''); tag.textContent = g >= 0 ? LABEL[g] : '';
+    tag.style.opacity = g >= 0 ? Math.min(1, d / 90) : 0;
+    const over = g >= 0 && far(dx, dy);
+    if (over !== !!s.over && over && navigator.vibrate) { try { navigator.vibrate(8); } catch (e) {} }
+    s.over = over;
+  }
+  function reset(animate) {
+    card.classList.remove('dragging', 'flying');
+    if (animate && !reduced.matches) { card.classList.add('returning'); setTimeout(() => card.classList.remove('returning'), 320); }
+    card.style.transform = ''; card.style.opacity = ''; tag.style.opacity = 0;
+  }
+  card.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1 || !current() || e.target.closest('button') || getSelection().toString().trim()) { s = null; return; }
+    const t = e.touches[0]; s = { x: t.clientX, y: t.clientY, t: Date.now(), axis: '', el: e.target };
+  }, { passive: true });
+  card.addEventListener('touchmove', e => {
+    if (!s) return;
+    const t = e.touches[0], dx = t.clientX - s.x, dy = t.clientY - s.y;
+    if (!s.axis) {
+      if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+      if (Math.abs(dx) > Math.abs(dy)) s.axis = 'x';
+      else if (dy > 0) { const m = scroller(s.el); if (m && m.scrollTop > 0) { s = null; return; } s.axis = 'y'; }
+      else { s = null; return; }                            // swiping up = normal scrolling
+      if (!e.cancelable) { s = null; return; }              // the browser already started scrolling
+      card.classList.add('dragging');
+    }
+    e.preventDefault(); s.dx = dx; s.dy = dy; paint(dx, dy);
+  }, { passive: false });
+  const end = () => {
+    if (!s || !s.axis) { s = null; return; }
+    const { dx = 0, dy = 0 } = s, v = (s.axis === 'x' ? Math.abs(dx) : dy) / Math.max(1, Date.now() - s.t);
+    const g = pick(dx, dy), go = g >= 0 && (far(dx, dy) || (v > .6 && (s.axis === 'x' ? Math.abs(dx) : dy) > 40));
+    s = null; swipedAt = Date.now();
+    if (!go) { reset(true); return; }
+    if (reduced.matches) { reset(false); grade(g); return; }
+    const w = innerWidth;
+    card.classList.remove('dragging'); card.classList.add('flying');
+    card.style.transform = g === 1 ? `translate(${dx * .25}px, ${innerHeight * .8}px)` : `translate(${g === 2 ? w : -w}px, ${dy * .2}px) rotate(${g === 2 ? 24 : -24}deg)`;
+    card.style.opacity = '0';
+    setTimeout(() => { reset(false); grade(g); }, 230);
+  };
+  card.addEventListener('touchend', end);
+  card.addEventListener('touchcancel', () => { if (s && s.axis) reset(true); s = null; });
+})();
+
 $('btnPrev').onclick = () => go(-1);
 $('btnNext').onclick = () => go(1);
 $('gradeRow').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if (b) grade(+b.dataset.g); });
